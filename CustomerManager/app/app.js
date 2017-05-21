@@ -27,8 +27,8 @@ define(['customersApp/services/routeResolver'], function () {
             var route = routeResolverProvider.route;
 
             $routeProvider
-                //route.resolve() now accepts the convention to use (name of controller & view) as well as the 
-                //path where the controller or view lives in the controllers or views folder if it's in a sub folder. 
+                //route.resolve() now accepts the convention to use (name of controller & view) as well as the
+                //path where the controller or view lives in the controllers or views folder if it's in a sub folder.
                 //For example, the controllers for customers live in controllers/customers and the views are in views/customers.
                 //The controllers for orders live in controllers/orders and the views are in views/orders
                 //The second parameter allows for putting related controllers/views into subfolders to better organize large projects
@@ -37,16 +37,17 @@ define(['customersApp/services/routeResolver'], function () {
                 .when('/customerorders/:customerId', route.resolve('CustomerOrders', 'customers/', 'vm'))
                 .when('/customeredit/:customerId', route.resolve('CustomerEdit', 'customers/', 'vm', true))
                 .when('/orders', route.resolve('Orders', 'orders/', 'vm'))
+                .when('/facebook', route.resolve('FacebookComments', 'facebooks/', 'vm'))
                 .when('/about', route.resolve('About', '', 'vm'))
                 .when('/login/:redirect*?', route.resolve('Login', '', 'vm'))
                 .otherwise({ redirectTo: '/customers' });
 
     }]);
 
-    app.run(['$rootScope', '$location', 'authService',
-        function ($rootScope, $location, authService) {
-            
-            //Client-side security. Server-side framework MUST add it's 
+    app.run(['$rootScope', '$location', '$window', 'authService',
+        function ($rootScope, $location, $window, authService) {
+
+            //Client-side security. Server-side framework MUST add it's
             //own security as well since client-based security is easily hacked
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 if (next && next.$$route && next.$$route.secure) {
@@ -57,6 +58,67 @@ define(['customersApp/services/routeResolver'], function () {
                     }
                 }
             });
+
+            $rootScope.user = {};
+
+            $window.fbAsyncInit = function () {
+                // Executed when the SDK is loaded
+                FB.init({
+                    /**
+                     * The app id of the web app
+                     * To register a new app visit Facebook App Dashboard
+                     * https://developers.facebook.com/apps/
+                     */
+                    appId: '**********',
+
+                    /**
+                     * Adding a Channel File improves the performance
+                     * of the javascript SDK, by addressing issues with
+                     * cross-domain communication in certain browsers.
+                     */
+                    channelUrl: 'app/channel.html',
+
+                    /**
+                     * Set if you want to check the authentication status
+                     * at the start up of the app
+                     */
+                    status: true,
+
+                    /**
+                     * Enable cookies to allow the server to access
+                     * the session
+                     */
+                    cookie: true,
+
+                    /**
+                     * Parse XFBML
+                     */
+                    xfbml: true,
+
+                    /**
+                     * Facebook API version
+                     */
+                    version: 'v2.9'
+                });
+            };
+
+            (function (d) {
+                // Load the Facebook javascript SDK
+                var js,
+                    id = 'facebook-jssdk',
+                    ref = d.getElementsByTagName('script')[0];
+
+                if (d.getElementById(id)) {
+                    return;
+                }
+
+                js = d.createElement('script');
+                js.id = id;
+                js.async = true;
+                js.src = '//connect.facebook.net/en_US/sdk.js';
+
+                ref.parentNode.insertBefore(js, ref);
+            }(document));
 
     }]);
 
