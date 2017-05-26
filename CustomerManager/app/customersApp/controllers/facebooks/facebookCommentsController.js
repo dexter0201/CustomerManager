@@ -3,154 +3,103 @@
 define(['app'], function (app) {
 
     var injectParams = ['$location', '$filter', '$window',
-                        '$timeout', 'authService', 'dataService', 'modalService', '$http'];
+                        '$timeout', 'authService', 'dataService', 'modalService', 'facebookService'];
 
     var FacebookCommentsController = function ($location, $filter, $window,
-        $timeout, authService, dataService, modalService, $http) {
+        $timeout, authService, dataService, modalService, facebookService) {
 
-        var vm = this;
+        var vm = this,
+            paging = false,
+            USERID = '346868925485831';
+
+        vm.searchTerm = null;
+        vm.postId = null;
 
         function Comment() {
-            this.name = null;
+            this.username = null;
             this.UID = null;
-            this.text = null;
+            this.messages = null;
+            this.userProfile = null;
+            this.avatar = null;
         }
 
         vm.comments = [];
-     // vm.filteredCustomers = [];
-        // vm.filteredCount = 0;
-        // vm.orderby = 'lastName';
-        // vm.reverse = false;
-        // vm.searchText = null;
-        // vm.cardAnimationClass = '.card-animation';
-
-        // //paging
-        // vm.totalRecords = 0;
-        // vm.pageSize = 10;
-        // vm.currentPage = 1;
-
-        // vm.pageChanged = function (page) {
-        //     vm.currentPage = page;
-        //     getCustomersSummary();
-        // };
-
-        // vm.deleteCustomer = function (id) {
-        //     if (!authService.user.isAuthenticated) {
-        //         $location.path(authService.loginPath + $location.$$path);
-        //         return;
-        //     }
-
-        //     var cust = getCustomerById(id);
-        //     var custName = cust.firstName + ' ' + cust.lastName;
-
-        //     var modalOptions = {
-        //         closeButtonText: 'Cancel',
-        //         actionButtonText: 'Delete Customer',
-        //         headerText: 'Delete ' + custName + '?',
-        //         bodyText: 'Are you sure you want to delete this customer?'
-        //     };
-
-        //     modalService.showModal({}, modalOptions).then(function (result) {
-        //         if (result === 'ok') {
-        //             dataService.deleteCustomer(id).then(function () {
-        //                 for (var i = 0; i < vm.customers.length; i++) {
-        //                     if (vm.customers[i].id === id) {
-        //                         vm.customers.splice(i, 1);
-        //                         break;
-        //                     }
-        //                 }
-        //                 filterCustomers(vm.searchText);
-        //             }, function (error) {
-        //                 $window.alert('Error deleting customer: ' + error.message);
-        //             });
-        //         }
-        //     });
-        // };
-
-        // vm.DisplayModeEnum = {
-        //     Card: 0,
-        //     List: 1
-        // };
-
-        // vm.changeDisplayMode = function (displayMode) {
-        //     switch (displayMode) {
-        //         case vm.DisplayModeEnum.Card:
-        //             vm.listDisplayModeEnabled = false;
-        //             break;
-        //         case vm.DisplayModeEnum.List:
-        //             vm.listDisplayModeEnabled = true;
-        //             break;
-        //     }
-        // };
-
-        // vm.navigate = function (url) {
-        //     $location.path(url);
-        // };
-
-        // vm.setOrder = function (orderby) {
-        //     if (orderby === vm.orderby) {
-        //         vm.reverse = !vm.reverse;
-        //     }
-        //     vm.orderby = orderby;
-        // };
-
-        // vm.searchTextChanged = function () {
-        //     filterCustomers(vm.searchText);
-        // };
+        vm.curentCursor = null;
 
         function init() {
-            getCommentsByPost('1881435888795791');
+            // getCommentsByPost('1881435888795791');
         }
 
-        function getCommentsByPost(id) {
-            var token = 'EAACEdEose0cBAGXOpAzsyK1LBcbLZA995ZALXHprX9OkNuAwzZBD5ccUQCZBqbq3rVhUntOWrAZBkscyaPeBJ8PSHc2jFSEUYTkA9KagJK4l2DqRPpYrvnr5gJ8GBaONAcs9YOgCscvLiovq0ZAp1ma1l7at9mpKILEQdRNZA89SGqFhLztGZBdwVbsZCq9wLaU0ZD';
-            var url = 'https://graph.facebook.com/{object-id}/comments';
+        vm.getCommentsByPost = function () {
+            //346868925485831_733757866796933 : Example video
+            //1481856742087043_1881435888795791 : Dexter post
+            if (!vm.postId) {
+                return;
+            }
 
-            $http.get(url.replace('{object-id}', id) + '?access_token=' + token)
-                .success(function (res) {
+            facebookService.video.getCommentsById(USERID + '_' + vm.postId, vm.token)
+                .then(function (res) {
                     if (res && res.data) {
-                        res.data.forEach(function (c) {
-                            var comment = new Comment();
-
-                            comment.name = c.from.name;
-                            comment.UID = c.from.id;
-                            comment.text = c.message;
-
-                            vm.comments.push(comment);
-                        });
+                        populateComments(res.data);
+                        vm.curentCursor = res.paging.next;
                     }
+                }
+            );
+        };
+
+        vm.getNextComments = function () {
+            if (vm.curentCursor && !paging) {
+                paging = true;
+                facebookService.video.getNextComments(vm.curentCursor)
+                    .then(function (res) {
+                        if (res && res.data) {
+                            populateComments(res.data);
+                            vm.curentCursor = res.paging.next;
+                            paging = false;
+                        }
+                    }
+                );
+            }
+        };
+
+        function populateComments(comments) {
+            comments.forEach(function (c) {
+                var existedCommentByUsers = vm.comments.filter(function (item) {
+                    return item.UID === c.from.id;
                 });
 
+                if (existedCommentByUsers.length === 0) {
+                    var comment = new Comment();
+                    comment.UID = c.from.id;
+                    comment.username = c.from.name;
+                    comment.userProfile = c.from.link;
+                    comment.avatar = c.from.picture.data ? c.from.picture.data.url : '';
+                    comment.messages = [{
+                        text: c.message,
+                        created: formatDateTime(new Date(c.created_time))
+                    }]
 
-            // dataService.getCustomersSummary(vm.currentPage - 1, vm.pageSize)
-            // .then(function (data) {
-            //     vm.totalRecords = data.totalRecords;
-            //     vm.customers = data.results;
-            //     filterCustomers(''); //Trigger initial filter
-
-            //     $timeout(function () {
-            //         vm.cardAnimationClass = ''; //Turn off animation since it won't keep up with filtering
-            //     }, 1000);
-
-            // }, function (error) {
-            //     $window.alert('Sorry, an error occurred: ' + error.data.message);
-            // });
+                    vm.comments.push(comment);
+                } else {
+                    existedCommentByUsers[0].messages.push({
+                        text: c.message,
+                        created: formatDateTime(new Date(c.created_time))
+                    });
+                }
+            });
         }
 
-        // function filterCustomers(filterText) {
-        //     vm.filteredCustomers = $filter("nameCityStateFilter")(vm.customers, filterText);
-        //     vm.filteredCount = vm.filteredCustomers.length;
-        // }
-
-        // function getCustomerById(id) {
-        //     for (var i = 0; i < vm.customers.length; i++) {
-        //         var cust = vm.customers[i];
-        //         if (cust.id === id) {
-        //             return cust;
-        //         }
-        //     }
-        //     return null;
-        // }
+        function formatDateTime(d) {
+            return [
+                d.toLocaleTimeString(),
+                ', ',
+                d.getDay(),
+                '/',
+                d.getMonth() + 1,
+                '/',
+                d.getYear()
+            ].join('');
+        }
 
         init();
     };

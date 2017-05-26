@@ -1,26 +1,57 @@
-<div class="view">
+<div class="facebook view">
     <div class="container">
         <header>
             <h3><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Facebook API</h3>
         </header>
         <br />
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Tên</th>
-                    <th>Comment</th>
-                    <th>UID</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="comment in vm.comments">
-                    <th scope="row">{{$index + 1}}</th>
-                    <td>{{ comment.name }}</td>
-                    <td>{{ comment.text }}</td>
-                    <td>{{ comment.UID }}</td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon">ID</span>
+                    <input type="text" class="form-control" placeholder="Nhập bài viết/video ID" ng-model="vm.postId">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Access Token</span>
+                    <input type="text" class="form-control" placeholder="Nhập facebook access token" ng-model="vm.token">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="input-group">
+                    <span class="input-group-addon">Tìm kiếm</span>
+                    <input type="text" class="form-control" placeholder="Nhập từ khoá tìm kiếm" ng-model="searchTerm">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <button class="btn btn-primary" ng-click="vm.getCommentsByPost()">Lấy danh sách comments</button>
     </div>
+
+    <div class="container facebook-comments-container" infinite-scroll="vm.getNextComments()" infinite-scroll-distance="3">
+        <section class="comments" ng-hide="vm.comments.length === 0">
+            <article class="comment" ng-repeat="comment in vm.comments | filter:searchTerm">
+                <a class="comment-img" target="_blank" href="{{comment.userProfile}}">
+                    <img class="img-circle" src="{{comment.avatar}}" alt="" width="50" height="50">
+                </a>
+                <div class="comment-body">
+                    <div class="text"
+                        ng-repeat="msg in comment.messages">
+                        <p>{{msg.text}}<em class="pull-right"> - at {{msg.created}}</em></p>
+                    </div>
+                    <p class="attribution">by <a  target="_blank" href="{{comment.userProfile}}">{{comment.username}}</a></p>
+                </div>
+            </article>
+        </section>
+    </div>
+
+    <br /><br /><br />
 </div>

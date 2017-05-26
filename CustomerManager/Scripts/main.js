@@ -13,6 +13,7 @@ require(
         'customersApp/services/customersBreezeService',
         'customersApp/services/authService',
         'customersApp/services/customersService',
+        'customersApp/services/facebookService',
         'customersApp/services/dataService',
         'customersApp/services/modalService',
         'customersApp/services/httpInterceptors',

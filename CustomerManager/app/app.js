@@ -3,7 +3,7 @@
 define(['customersApp/services/routeResolver'], function () {
 
     var app = angular.module('customersApp', ['ngRoute', 'ngAnimate', 'routeResolverServices',
-                                              'wc.directives', 'wc.animations', 'ui.bootstrap', 'breeze.angular']);
+                                              'wc.directives', 'wc.animations', 'ui.bootstrap', 'breeze.angular', 'infinite-scroll']);
 
     app.config(['$routeProvider', 'routeResolverProvider', '$controllerProvider',
                 '$compileProvider', '$filterProvider', '$provide', '$httpProvider',
@@ -69,7 +69,7 @@ define(['customersApp/services/routeResolver'], function () {
                      * To register a new app visit Facebook App Dashboard
                      * https://developers.facebook.com/apps/
                      */
-                    appId: '**********',
+                    appId: '145634995501895', // Daisy App: 413897558991905
 
                     /**
                      * Adding a Channel File improves the performance
@@ -98,27 +98,28 @@ define(['customersApp/services/routeResolver'], function () {
                     /**
                      * Facebook API version
                      */
-                    version: 'v2.9'
+                    version: 'v2.8'
                 });
+
+                FB.AppEvents.logPageView();
             };
 
-            (function (d) {
+            (function (d, id, script) {
                 // Load the Facebook javascript SDK
                 var js,
-                    id = 'facebook-jssdk',
-                    ref = d.getElementsByTagName('script')[0];
+                    ref = d.getElementsByTagName(script)[0];
 
                 if (d.getElementById(id)) {
                     return;
                 }
 
-                js = d.createElement('script');
+                js = d.createElement(script);
                 js.id = id;
                 js.async = true;
                 js.src = '//connect.facebook.net/en_US/sdk.js';
 
                 ref.parentNode.insertBefore(js, ref);
-            }(document));
+            }(document, 'facebook-jssdk', 'script'));
 
     }]);
 
