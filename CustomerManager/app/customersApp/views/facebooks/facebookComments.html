@@ -34,25 +34,39 @@
         <hr>
 
         <div class="row">
-            <button class="btn btn-primary" ng-click="vm.getCommentsByPost()">Lấy danh sách comments</button>
+            <button class="btn btn-primary" ng-click="vm.getAllCommentsByPost()">Lấy danh sách comments</button>
             <button class="btn btn-primary pull-right" type="button">
-                Tổng comments <span class="badge">{{vm.comments.length}}/{{vm.totalComments}}</span>
+                Số người <span class="badge">{{vm.comments.length}}</span>
+            </button>
+            <button class="btn btn-primary pull-right" type="button">
+                Tổng comments <span class="badge">{{vm.totalComments.actual}}</span>
             </button>
         </div>
     </div>
-
-    <div class="container facebook-comments-container" infinite-scroll="vm.getNextComments()" infinite-scroll-distance="3">
+ <!-- infinite-scroll="vm.getNextComments()" infinite-scroll-distance="3" -->
+    <div class="container facebook-comments-container">
         <section class="comments" ng-hide="vm.comments.length === 0">
             <article class="comment" ng-repeat="comment in vm.comments | filter:searchTerm">
                 <a class="comment-img cursor-pointer" ng-click="comment.isCollapsed = !comment.isCollapsed">
                     <img class="img-circle" src="{{comment.avatar}}" alt="" width="50" height="50">
                 </a>
                 <div class="comment-body">
-                    <div collapse="comment.isCollapsed">
+                    <div class="text"
+                        ng-if="comment.messages.length">
+                        <p>
+                            <span ng-bind-html="comment.messages[0].text | highlightFilter:searchTerm">
+                                {{comment.messages[0].text}}
+                            </span>
+                            <em class="pull-right"> - at {{comment.messages[0].created}}</em>
+                        </p>
+                    </div>
+                    <div collapse="comment.isCollapsed" ng-if="comment.messages.length > 1">
                         <div class="text"
-                            ng-repeat="msg in comment.messages"
-                            ng-bind-html="msg.text | highlightFilter:searchTerm" >
-                            <p>{{msg.text}}<em class="pull-right"> - at {{msg.created}}</em></p>
+                            ng-repeat="msg in comment.messages.slice(1)">
+                            <p>
+                                <span ng-bind-html="msg.text | highlightFilter:searchTerm">{{msg.text}}</span>
+                                <em class="pull-right"> - at {{msg.created}}</em>
+                            </p>
                         </div>
                     </div>
                     <p class="attribution">by <a  target="_blank" href="{{comment.userProfile}}">{{comment.username}}</a></p>

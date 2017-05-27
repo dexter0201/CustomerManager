@@ -14,7 +14,10 @@ define(['app'], function (app) {
 
         vm.searchTerm = null;
         vm.postId = null;
-        vm.totalComments = 0;
+        vm.totalComments = {
+            fb: 0,
+            actual: 0
+        };
 
         function Comment() {
             this.username = null;
@@ -32,21 +35,41 @@ define(['app'], function (app) {
             // getCommentsByPost('1881435888795791');
         }
 
-        // vm.getAllCommentsByPost = function () {
-        //     if (!vm.postId) {
-        //         return;
-        //     }
+        vm.getAllCommentsByPost = function () {
+            if (!vm.postId) {
+                return;
+            }
 
-        //     facebookService.video.getCommentsById(USERID + '_' + vm.postId, vm.token)
-        //         .then(function (res) {
-        //             if (res && res.data) {
-        //                 populateComments(res.data);
-        //                 vm.nextCursor = res.paging.next;
-        //                 vm.totalComments = res.summary.total_count;
-        //             }
-        //         }
-        //     );
-        // };
+            facebookService.video.getCommentsById(USERID + '_' + vm.postId, vm.token)
+                .then(function (res) {
+                    if (res && res.data) {
+                        populateComments(res.data);
+                        vm.totalComments.fb = res.summary.total_count;
+                        vm.totalComments.actual += res.data.length;
+
+                        if (res.paging.next) {
+                            getAllNextComments(res.paging.next);
+                        }
+
+                    }
+                }
+            );
+        };
+
+        function getAllNextComments(nextCursor) {
+            facebookService.video.getNextComments(nextCursor)
+                .then(function (res) {
+                    if (res && res.data) {
+                        populateComments(res.data);
+                        vm.totalComments.actual += res.data.length;
+
+                        if (res.paging.next) {
+                            getAllNextComments.call(null, res.paging.next);
+                        }
+                    }
+                }
+            );
+        }
 
         vm.getCommentsByPost = function () {
             if (!vm.postId) {
@@ -59,6 +82,7 @@ define(['app'], function (app) {
                         populateComments(res.data);
                         vm.nextCursor = res.paging.next;
                         vm.totalComments = res.summary.total_count;
+                        vm.totalComments.actual += res.data.length;
                     }
                 }
             );
@@ -71,6 +95,7 @@ define(['app'], function (app) {
                     .then(function (res) {
                         if (res && res.data) {
                             populateComments(res.data);
+                            vm.totalComments.actual += res.data.length;
                             vm.nextCursor = res.paging.next;
                             paging = false;
                         }
