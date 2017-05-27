@@ -14,6 +14,7 @@ define(['app'], function (app) {
 
         vm.searchTerm = null;
         vm.postId = null;
+        vm.totalComments = 0;
 
         function Comment() {
             this.username = null;
@@ -21,18 +22,33 @@ define(['app'], function (app) {
             this.messages = null;
             this.userProfile = null;
             this.avatar = null;
+            this.isCollapsed = true;
         }
 
         vm.comments = [];
-        vm.curentCursor = null;
+        vm.nextCursor = null;
 
         function init() {
             // getCommentsByPost('1881435888795791');
         }
 
+        // vm.getAllCommentsByPost = function () {
+        //     if (!vm.postId) {
+        //         return;
+        //     }
+
+        //     facebookService.video.getCommentsById(USERID + '_' + vm.postId, vm.token)
+        //         .then(function (res) {
+        //             if (res && res.data) {
+        //                 populateComments(res.data);
+        //                 vm.nextCursor = res.paging.next;
+        //                 vm.totalComments = res.summary.total_count;
+        //             }
+        //         }
+        //     );
+        // };
+
         vm.getCommentsByPost = function () {
-            //346868925485831_733757866796933 : Example video
-            //1481856742087043_1881435888795791 : Dexter post
             if (!vm.postId) {
                 return;
             }
@@ -41,20 +57,21 @@ define(['app'], function (app) {
                 .then(function (res) {
                     if (res && res.data) {
                         populateComments(res.data);
-                        vm.curentCursor = res.paging.next;
+                        vm.nextCursor = res.paging.next;
+                        vm.totalComments = res.summary.total_count;
                     }
                 }
             );
         };
 
         vm.getNextComments = function () {
-            if (vm.curentCursor && !paging) {
+            if (vm.nextCursor && !paging) {
                 paging = true;
-                facebookService.video.getNextComments(vm.curentCursor)
+                facebookService.video.getNextComments(vm.nextCursor)
                     .then(function (res) {
                         if (res && res.data) {
                             populateComments(res.data);
-                            vm.curentCursor = res.paging.next;
+                            vm.nextCursor = res.paging.next;
                             paging = false;
                         }
                     }

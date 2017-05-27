@@ -19,6 +19,7 @@ require(
         'customersApp/services/httpInterceptors',
         'customersApp/filters/nameCityStateFilter',
         'customersApp/filters/nameProductFilter',
+        'customersApp/filters/highlightFilter',
         'customersApp/controllers/navbarController',
         'customersApp/controllers/orders/orderChildController',
     ],

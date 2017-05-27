@@ -493,6 +493,10 @@ input.ng-valid, select.ng-valid, input.ng-valid-required, select.ng-valid.requir
     -o-transform: rotate(45deg);
 }
 
+.comment .cursor-pointer {
+    cursor: pointer;
+}
+
 /**
  * End facebook module style
  */
