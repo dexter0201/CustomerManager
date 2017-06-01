@@ -12,13 +12,6 @@ define(['app'], function (app) {
             paging = false,
             USERID = '346868925485831';
 
-        vm.searchTerm = null;
-        vm.postId = null;
-        vm.totalComments = {
-            fb: 0,
-            actual: 0
-        };
-
         function Comment() {
             this.username = null;
             this.UID = null;
@@ -28,17 +21,17 @@ define(['app'], function (app) {
             this.isCollapsed = true;
         }
 
-        vm.comments = [];
-        vm.nextCursor = null;
-
         function init() {
             // getCommentsByPost('1881435888795791');
+           initValues();
         }
 
         vm.getAllCommentsByPost = function () {
             if (!vm.postId) {
                 return;
             }
+       
+            initValues();
 
             facebookService.video.getCommentsById(USERID + '_' + vm.postId, vm.token)
                 .then(function (res) {
@@ -129,6 +122,18 @@ define(['app'], function (app) {
                     });
                 }
             });
+        }
+       
+        function initValues() {
+            vm.searchTerm = null;
+            vm.postId = null;
+            vm.totalComments = {
+                fb: 0,
+                actual: 0
+            };
+       
+            vm.comments = [];
+            vm.nextCursor = null;
         }
 
         function formatDateTime(d) {
