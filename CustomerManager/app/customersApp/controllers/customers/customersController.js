@@ -17,6 +17,10 @@ define(['app'], function (app) {
         vm.reverse = false;
         vm.searchText = null;
         vm.cardAnimationClass = '.card-animation';
+        vm.CustomerTypeEnum = {
+            retail: 1,
+            whole: 2
+        };
 
         //paging
         vm.totalRecords = 0;
@@ -61,18 +65,15 @@ define(['app'], function (app) {
             });
         };
 
-        vm.DisplayModeEnum = {
-            Card: 0,
-            List: 1
-        };
-
-        vm.changeDisplayMode = function (displayMode) {
-            switch (displayMode) {
-                case vm.DisplayModeEnum.Card:
-                    vm.listDisplayModeEnabled = false;
+        vm.getCustomerSummaryByType = function (type) {
+            switch (type) {
+                case vm.CustomerTypeEnum.whole:
+                    getCustomerSummaryByType(vm.CustomerTypeEnum.whole);
+                    vm.isDisplayWholeCustomer = true;
                     break;
-                case vm.DisplayModeEnum.List:
-                    vm.listDisplayModeEnabled = true;
+                case vm.CustomerTypeEnum.retail:
+                    getCustomerSummaryByType(vm.CustomerTypeEnum.retail);
+                    vm.isDisplayWholeCustomer = false;
                     break;
             }
         };
@@ -94,7 +95,9 @@ define(['app'], function (app) {
 
         function init() {
             //createWatches();
-            getCustomersSummary();
+            // getCustomersSummary();
+            getCustomerSummaryByType(vm.CustomerTypeEnum.whole);
+            vm.isDisplayWholeCustomer = true;
         }
 
         //function createWatches() {
@@ -122,6 +125,21 @@ define(['app'], function (app) {
             }, function (error) {
                 $window.alert('Sorry, an error occurred: ' + error.data.message);
             });
+        }
+
+        function getCustomerSummaryByType(type) {
+            dataService
+                .getCustomersSummaryByType(type, vm.currentPage - 1, vm.pageSize)
+                .then(function (data) {
+                    vm.totalRecords = data.totalRecords;
+                    vm.customers = data.results;
+                    filterCustomers('');
+                    $timeout(function () {
+                        vm.cardAnimationClass = ''; //Turn off animation since it won't keep up with filtering
+                    }, 1000);
+                }, function (error) {
+                    $window.alert('Sorry, an error occurred: ' + error.data.message);
+                });
         }
 
         function filterCustomers(filterText) {

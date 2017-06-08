@@ -9,11 +9,25 @@ define(['app'], function (app) {
             factory = {};
 
         factory.getCustomers = function (pageIndex, pageSize) {
-            return getPagedResource('customers', pageIndex, pageSize);
+            return getPagedResource('customers', {
+                '$top': pageSize,
+                '$skip': pageSize * pageIndex
+            });
         };
 
         factory.getCustomersSummary = function (pageIndex, pageSize) {
-            return getPagedResource('customersSummary', pageIndex, pageSize);
+            return getPagedResource('customersSummary', {
+                '$top': pageSize,
+                '$skip': pageSize * pageIndex
+            });
+        };
+
+        factory.getCustomersSummaryByType = function (type, pageIndex, pageSize) {
+            return getPagedResource('customersSummaryByType', {
+                '$top': pageSize,
+                '$skip': pageSize * pageIndex,
+                '$type': type
+            });
         };
 
         factory.getStates = function () {
@@ -79,9 +93,12 @@ define(['app'], function (app) {
             }
         }
 
-        function getPagedResource(baseResource, pageIndex, pageSize) {
+        function getPagedResource(baseResource, params) {
             var resource = baseResource;
-            resource += (arguments.length == 3) ? buildPagingUri(pageIndex, pageSize) : '';
+            // resource += (arguments.length == 3) ? buildPagingUri(pageIndex, pageSize) : '';
+
+            resource += buildPagingUri(params);
+
             return $http.get(serviceBase + resource).then(function (response) {
                 var custs = response.data;
                 extendCustomers(custs);
@@ -92,8 +109,14 @@ define(['app'], function (app) {
             });
         }
 
-        function buildPagingUri(pageIndex, pageSize) {
-            var uri = '?$top=' + pageSize + '&$skip=' + (pageIndex * pageSize);
+        function buildPagingUri(params) {
+            params = params || {};
+            var uri = '?';
+
+            uri += Object.keys(params).map(function (param) {
+                return param + '=' + params[param];
+            }).join('&');
+
             return uri;
         }
 

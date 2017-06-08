@@ -54,11 +54,26 @@ module.exports = {
     // get the customer summary
     getCustomersSummary: function (skip, top, callback) {
         console.log('*** accessDB.getCustomersSummary');
-        Customer.count(function(err, custsCount) {
+        Customer.count(function (err, custsCount) {
             var count = custsCount;
+
             console.log('Customers count: ' + count);
 
-            Customer.find({}, { '_id': 0, 'firstName': 1, 'lastName': 1, 'city': 1, 'state': 1, 'orderCount': 1, 'gender': 1, 'id': 1 })
+            Customer.find(
+                {}, {
+                    '_id': false,
+                    'firstName': true,
+                    'lastName': true,
+                    'city': true,
+                    'state': true,
+                    'orderCount': true,
+                    'gender': true,
+                    'id': true,
+                    'address': true,
+                    'phone': true,
+                    'type': true
+                }
+            )
             /*
             //This stopped working (not sure if it's a mongo or mongoose change) so doing 2 queries now
             function (err, customersSummary) {
@@ -75,6 +90,39 @@ module.exports = {
                 });
             });
 
+        });
+    },
+
+    getCustomersSummaryByType: function (type, skip, top, callback) {
+        console.log('*** accessDB.getCustomersSummaryByType');
+        Customer.count({'type.id': type}, function (err, custsCount) {
+            var count = custsCount;
+
+            console.log('Customers count: ' + count);
+
+            Customer.find({
+                'type.id': type
+            }, {
+                '_id': false,
+                'firstName': true,
+                'lastName': true,
+                'city': true,
+                'state': true,
+                'orderCount': true,
+                'gender': true,
+                'id': true,
+                'address': true,
+                'phone': true,
+                'type': true
+            })
+            .skip(skip)
+            .limit(top)
+            .exec(function (err, customersSummary) {
+                callback(null, {
+                    count: count,
+                    customersSummary: customersSummary
+                });
+            });
         });
     },
 

@@ -30,7 +30,7 @@ define(['app'], function (app) {
             if (!vm.postId) {
                 return;
             }
-       
+
             initValues();
 
             facebookService.video.getCommentsById(USERID + '_' + vm.postId, vm.token)
@@ -123,15 +123,14 @@ define(['app'], function (app) {
                 }
             });
         }
-       
+
         function initValues() {
             vm.searchTerm = null;
-            //vm.postId = null;
             vm.totalComments = {
                 fb: 0,
                 actual: 0
             };
-       
+
             vm.comments = [];
             vm.nextCursor = null;
         }

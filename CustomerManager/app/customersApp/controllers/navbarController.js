@@ -18,7 +18,7 @@ define(['app'], function (app) {
         vm.loginOrOut = function () {
             setLoginLogoutText();
             var isAuthenticated = authService.user.isAuthenticated;
-            if (isAuthenticated) { //logout 
+            if (isAuthenticated) { //logout
                 authService.logout().then(function () {
                     $location.path('/');
                     return;
@@ -42,7 +42,7 @@ define(['app'], function (app) {
         });
 
         function setLoginLogoutText() {
-            vm.loginLogoutText = (authService.user.isAuthenticated) ? 'Logout' : 'Login';
+            vm.loginLogoutText = (authService.user.isAuthenticated) ? 'Đăng xuất' : 'Đăng nhập';
         }
 
         setLoginLogoutText();
@@ -52,7 +52,7 @@ define(['app'], function (app) {
     NavbarController.$inject = injectParams;
 
 
-    //Loaded normally since the script is loaded upfront 
+    //Loaded normally since the script is loaded upfront
     //Dynamically loaded controller use app.register.controller
     app.controller('NavbarController', NavbarController);
 

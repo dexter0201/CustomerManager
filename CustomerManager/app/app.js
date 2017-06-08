@@ -69,7 +69,7 @@ define(['customersApp/services/routeResolver'], function () {
                      * To register a new app visit Facebook App Dashboard
                      * https://developers.facebook.com/apps/
                      */
-                    appId: '145634995501895', // Daisy App: 413897558991905
+                    appId: '413897558991905',//'145634995501895', // Daisy App: 413897558991905
 
                     /**
                      * Adding a Channel File improves the performance

@@ -132,12 +132,35 @@ exports.customersSummary = function (req, res) {
     });
 };
 
+exports.customersSummaryByType = function (req, res) {
+    console.log('*** customersSummaryByType');
+    var topVal = req.query.$top,
+        skipVal = req.query.$skip,
+        type = req.query.$type,
+        top = (isNaN(topVal)) ? 10 : parseInt(req.query.$top, 10),
+        skip = (isNaN(skipVal)) ? 0 : parseInt(req.query.$skip, 10);
+
+    db.getCustomersSummaryByType(type, skip, top, function (err, summary) {
+        res.setHeader('X-InlineCount', summary.count);
+
+        if (err) {
+            console.log('*** customersSummaryByType err');
+            res.json({
+                customersSummary: summary.customersSummary
+            });
+        } else {
+            console.log('*** customersSummaryByType ok');
+            res.json(summary.customersSummary);
+        }
+    });
+};
+
 exports.checkUnique = function (req, res) {
     console.log('*** checkUnique');
 
     var id = req.params.id,
-    	value = req.query.value,
-    	property = req.query.property;
+        value = req.query.value,
+        property = req.query.property;
 
     db.checkUnique(id, property, value, function (err, opStatus) {
         if (err) {

@@ -15,8 +15,8 @@ define(['app'], function (app) {
 
         vm.customer = {};
         vm.states = [];
-        vm.title = (customerId > 0) ? 'Edit' : 'Add';
-        vm.buttonText = (customerId > 0) ? 'Update' : 'Add';
+        vm.title = (customerId > 0) ? 'Sửa' : 'Thêm';
+        vm.buttonText = (customerId > 0) ? 'Cập nhật' : 'Thêm';
         vm.updateStatus = false;
         vm.errorMessage = '';
 
