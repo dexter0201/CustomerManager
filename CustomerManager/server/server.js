@@ -56,6 +56,8 @@ app.put(baseUrl + 'PutCustomer/:id', api.editCustomer);
 app.delete(baseUrl + 'DeleteCustomer/:id', api.deleteCustomer);
 
 app.get(baseUrl + 'States', api.states);
+app.get(baseUrl + 'Cities', api.cities);
+
 
 app.get(baseUrl + 'CheckUnique/:id', api.checkUnique);
 

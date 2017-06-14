@@ -1,4 +1,4 @@
-﻿<div class="view">
+<div class="view">
     <div class="container">
         <header>
             <h3><span class="glyphicon glyphicon-edit"></span> {{vm.title}} Khách Hàng</h3>
@@ -59,6 +59,46 @@
                     </div>
                 </div>
                 <br />
+                <!-- <div class="row">
+                    <div class="col-md-2">
+                        Tỉnh/Thành phố:
+                    </div>
+                    <div class="col-md-10">
+                        <select name="city" required class="form-control"
+                                data-ng-model="vm.customer.city"
+                                data-ng-options="city.id as city.name for city in vm.cities">
+                            <option value=""></option>
+                        </select>
+                        <span class="errorMessage" ng-show="editForm.city.$touched && editForm.city.$invalid">
+                            Vui lòng chọn tỉnh/thành phố
+                        </span>
+                    </div>
+                </div>
+                <br /> -->
+                <div class="row">
+                    <div class="col-md-2">
+                        Loại khách:
+                    </div>
+                    <div class="col-md-10">
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="typeId" value="1"
+                                       data-ng-checked="vm.customer.typeId !== 2"
+                                       data-ng-model="vm.customer.typeId" />
+                                Lẻ
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="typeId" value="2"
+                                       data-ng-checked="vm.customer.typeId == 2"
+                                       data-ng-model="vm.customer.typeId" />
+                                Sỉ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br />
                 <div class="row">
                     <div class="col-md-2">
                         Giới tính:
@@ -66,19 +106,19 @@
                     <div class="col-md-10">
                         <div class="radio">
                             <label class="radio">
-                                <input type="radio" name="gender" value="Male"
-                                       data-ng-checked="vm.customer.gender == 'Male'"
+                                <input type="radio" name="gender" value="Female"
+                                       data-ng-checked="vm.customer.gender !== 'Male'"
                                        data-ng-model="vm.customer.gender" />
-                                Name
+                                Nữ
+                                <br />
                             </label>
                         </div>
                         <div class="radio">
                             <label class="radio">
-                                <input type="radio" name="gender" value="Female"
-                                       data-ng-checked="vm.customer.gender == 'Female'"
+                                <input type="radio" name="gender" value="Male"
+                                       data-ng-checked="vm.customer.gender == 'Male'"
                                        data-ng-model="vm.customer.gender" />
-                                Nữ
-                                <br />
+                                Nam
                             </label>
                         </div>
                     </div>
@@ -102,47 +142,7 @@
                                required />
                         <!-- Show error if touched and unique is in error -->
                         <span class="errorMessage" ng-show="editForm.email.$touched && editForm.email.$error.unique">
-                            Email already in use
-                        </span>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-md-2">
-                        City:
-                    </div>
-                    <div class="col-md-10">
-                        <input type="text" name="city" class="form-control" data-ng-model="vm.customer.city" required />
-                        <span class="errorMessage" ng-show="editForm.city.$touched && editForm.city.$invalid">
-                            City is required
-                        </span>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-md-2">
-                        State:
-                    </div>
-                    <div class="col-md-10">
-                        <select name="state" required class="form-control"
-                                data-ng-model="vm.customer.stateId"
-                                data-ng-options="state.id as state.name for state in vm.states">
-                            <option value=""></option>
-                        </select>
-                        <span class="errorMessage" ng-show="editForm.state.$touched && editForm.state.$invalid">
-                            2 character state is required
-                        </span>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-md-2">
-                        Zip:
-                    </div>
-                    <div class="col-md-10">
-                        <input type="number" name="zip" class="form-control" data-ng-model="vm.customer.zip" required />
-                        <span class="errorMessage" ng-show="editForm.zip.$touched && editForm.zip.$invalid">
-                            Zip is required
+                            Email đã được sử dụng
                         </span>
                     </div>
                 </div>
@@ -154,14 +154,14 @@
                             {{vm.buttonText}}
                         </button>
                         &nbsp;&nbsp;
-                        <button class="btn btn-danger" data-ng-if="vm.customer.id > 0" data-ng-click="vm.deleteCustomer()">Delete</button>
+                        <button class="btn btn-danger" data-ng-if="vm.customer.id > 0" data-ng-click="vm.deleteCustomer()">Xóa</button>
                     </div>
                 </div>
                 <br />
                 <div class="statusRow">
                     <br />
                     <div class="label label-success" data-ng-show="vm.updateStatus">
-                        <span class="glyphicon glyphicon-thumbs-up icon-white"></span>&nbsp;&nbsp;Customer updated!
+                        <span class="glyphicon glyphicon-thumbs-up icon-white"></span>&nbsp;&nbsp;Đã cập nhật khách hàng!
                     </div>
                 </div>
                 <div class="statusRow">

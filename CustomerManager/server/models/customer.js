@@ -62,33 +62,9 @@ var CustomerSchema = new Schema({
         required: true,
         trim: true
     },
-    city : {
-        type : String,
-        required: true,
+    avatar: {
+        type: String,
         trim: true
-    },
-    stateId : {
-        type : Number,
-        required: true
-    },
-    state : {
-        id : {
-            type : Number
-        },
-        abbreviation : {
-            type : String,
-            required: true,
-            trim: true
-        },
-        name : {
-            type :  String,
-            required: true,
-            trim: true
-        }
-    },
-    zip : {
-        type : Number,
-        required: true
     },
     gender : {
         type : String,
@@ -109,7 +85,10 @@ var CustomerSchema = new Schema({
         type: String
     },
     orders: [OrderSchema],
-    type: [CustomerTypeScheme]
+    type: {
+        type: Schema.Types.ObjectId,
+        ref: 'Type'
+    }
 });
 
 CustomerSchema.index({
@@ -120,7 +99,7 @@ CustomerSchema.index({
 // I make sure this is the last pre-save middleware (just in case)
 var Settings = mongoose.model('settings', SettingsSchema);
 
-CustomerSchema.pre('save', function(next) {
+CustomerSchema.pre('save', function (next) {
     var doc = this;
     // Calculate the next id on new Customers only.
     if (this.isNew) {

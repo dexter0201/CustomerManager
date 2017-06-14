@@ -37,6 +37,14 @@ define(['app'], function (app) {
                 });
         };
 
+        factory.getCities = function () {
+            return $http
+                .get(serviceBase + 'cities')
+                .then(function (results) {
+                    return results.data;
+                });
+        };
+
         factory.checkUniqueValue = function (id, property, value) {
             if (!id) id = 0;
             return $http.get(serviceBase + 'checkUnique/' + id + '?property=' + property + '&value=' + escape(value)).then(
@@ -53,7 +61,11 @@ define(['app'], function (app) {
         };
 
         factory.newCustomer = function () {
-            return $q.when({ id: 0 });
+            return $q.when({
+                id: 0,
+                typeId: 1,
+                gender: 'Female'
+            });
         };
 
         factory.updateCustomer = function (customer) {

@@ -21,20 +21,13 @@ exports.customer = function (req, res) {
 
 exports.addCustomer = function (req, res) {
     console.log('*** addCustomer');
-    db.getState(req.body.stateId, function (err, state) {
+    db.insertCustomer(req.body, function (err) {
         if (err) {
-            console.log('*** getState err');
-            res.json({ 'status': false });
+            console.log('*** addCustomer err');
+            res.json(false);
         } else {
-            db.insertCustomer(req.body, state, function (err) {
-                if (err) {
-                    console.log('*** addCustomer err');
-                    res.json(false);
-                } else {
-                    console.log('*** addCustomer ok');
-                    res.json(req.body);
-                }
-            });
+            console.log('*** addCustomer ok');
+            res.json(req.body);
         }
     });
 };
@@ -42,20 +35,13 @@ exports.addCustomer = function (req, res) {
 exports.editCustomer = function (req, res) {
     console.log('*** editCustomer');
 
-    db.getState(req.body.stateId, function (err, state) {
+    db.editCustomer(req.params.id, req.body, function (err) {
         if (err) {
-            console.log('*** getState err');
+            console.log('*** editCustomer err' + util.inspect(err));
             res.json({ 'status': false });
         } else {
-            db.editCustomer(req.params.id, req.body, state, function (err) {
-                if (err) {
-                    console.log('*** editCustomer err' + util.inspect(err));
-                    res.json({ 'status': false });
-                } else {
-                    console.log('*** editCustomer ok');
-                    res.json({ 'status': true });
-                }
-            });
+            console.log('*** editCustomer ok');
+            res.json({ 'status': true });
         }
     });
 };
@@ -86,6 +72,22 @@ exports.states = function (req, res) {
         } else {
             console.log('*** states ok');
             res.json(states);
+        }
+    });
+};
+
+// GET
+exports.cities = function (req, res) {
+    console.log('*** cities');
+    db.getCities(function (err, cities) {
+        if (err) {
+            console.log('*** cities err');
+            res.json({
+                cities: cities
+            });
+        } else {
+            console.log('*** cities ok');
+            res.json(cities);
         }
     });
 };

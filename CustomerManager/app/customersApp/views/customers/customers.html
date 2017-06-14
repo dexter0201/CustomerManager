@@ -74,22 +74,34 @@
                                     <th>&nbsp;</th>
                                     <th data-ng-click="vm.setOrder('lastName')">Tên</th>
                                     <th data-ng-click="vm.setOrder('city')">Địa chỉ</th>
-                                    <th data-ng-click="vm.setOrder('orderCount')">Số lượng đơn hàng</th>
+                                    <!-- <th data-ng-click="vm.setOrder('orderCount')">Số lượng đơn hàng</th> -->
+                                    <th data-ng-click="vm.setOrder('phone')">Số điện thoại</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr data-ng-repeat="customer in vm.filteredCustomers | orderBy:vm.orderby:vm.reverse" class="repeat-animation">
-                                    <td><a href="#/customeredit/{{customer.id}}"><img data-ng-src="Content/images/{{customer.gender | lowercase}}.png" class="cardImage" alt="Customer Image" /></a></td>
-                                    <td><a href="#/customeredit/{{customer.id}}">{{customer.firstName + ' ' + customer.lastName}}</a></td>
-                                    <td>{{customer.city}}, {{customer.state.name}}</td>
                                     <td>
-                                        <a href="#/customerorders/{{customer.id}}" class="btn-link">
+                                        <a href="#/customeredit/{{customer.id}}">
+                                            <img data-ng-src="Content/images/{{customer.gender | lowercase}}.png" class="cardImage" alt="Customer Image" ng-if="!customer.avatar"/>
+                                            <img data-ng-src="{{customer.avatar}}" class="cardImage" alt="Customer Image" ng-if="customer.avatar" />
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <a href="#/customeredit/{{customer.id}}">
+                                            {{customer.firstName + ' ' + customer.lastName}}
+                                        </a>
+                                    </td>
+                                    <td>{{customer.address}}</td>
+                                    <td>
+                                        <!-- <a href="#/customerorders/{{customer.id}}" class="btn-link">
                                             {{ customer.orderCount }}
                                             <span data-ng-pluralize count="customer.orderCount"
                                                   when="{'1': 'Order','other': 'Orders'}">
                                             </span>
-                                        </a>
+                                        </a> -->
+                                        <span>{{customer.phone}}</span>
                                     </td>
                                     <td><button class="btn btn-danger" data-ng-click="vm.deleteCustomer(customer.id)">Xoá</button></td>
                                 </tr>

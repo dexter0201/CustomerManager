@@ -14,22 +14,17 @@ define(['app'], function (app) {
             onRouteChangeOff;
 
         vm.customer = {};
-        vm.states = [];
+        vm.cities = [];
         vm.title = (customerId > 0) ? 'Sửa' : 'Thêm';
         vm.buttonText = (customerId > 0) ? 'Cập nhật' : 'Thêm';
         vm.updateStatus = false;
         vm.errorMessage = '';
 
-        vm.isStateSelected = function (customerStateId, stateId) {
-            return customerStateId === stateId;
-        };
-
         vm.saveCustomer = function () {
             if ($scope.editForm.$valid) {
                 if (!vm.customer.id) {
                     dataService.insertCustomer(vm.customer).then(processSuccess, processError);
-                }
-                else {
+                } else {
                     dataService.updateCustomer(vm.customer).then(processSuccess, processError);
                 }
             }
@@ -38,10 +33,10 @@ define(['app'], function (app) {
         vm.deleteCustomer = function () {
             var custName = vm.customer.firstName + ' ' + vm.customer.lastName;
             var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Delete Customer',
-                headerText: 'Delete ' + custName + '?',
-                bodyText: 'Are you sure you want to delete this customer?'
+                closeButtonText: 'Huỷ',
+                actionButtonText: 'Xoá khách hàng',
+                headerText: 'Xoá ' + custName + '?',
+                bodyText: 'Bạn chắc chắn xoá khách hàng này?'
             };
 
             modalService.showModal({}, modalOptions).then(function (result) {
@@ -55,19 +50,16 @@ define(['app'], function (app) {
         };
 
         function init() {
-
-            getStates().then(function () {
-                if (customerId > 0) {
-                    dataService.getCustomer(customerId).then(function (customer) {
-                        vm.customer = customer;
-                    }, processError);
-                } else {
-                    dataService.newCustomer().then(function (customer) {
-                        vm.customer = customer;
-                    });
-                }
-            });
-
+            if (customerId > 0) {
+                dataService.getCustomer(customerId).then(function (customer) {
+                    vm.customer = customer;
+                    vm.customer.typeId = customer.type.id;
+                }, processError);
+            } else {
+                dataService.newCustomer().then(function (customer) {
+                    vm.customer = customer;
+                });
+            }
 
             //Make sure they're warned if they made a change but didn't save it
             //Call to $on returns a "deregistration" function that can be called to
@@ -82,10 +74,10 @@ define(['app'], function (app) {
             if (!vm.editForm || !vm.editForm.$dirty) return;
 
             var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Ignore Changes',
-                headerText: 'Unsaved Changes',
-                bodyText: 'You have unsaved changes. Leave the page?'
+                closeButtonText: 'Huỷ',
+                actionButtonText: 'Loại bỏ thay đổi',
+                headerText: 'Thay đổi chưa được lưu',
+                bodyText: 'Những thay đổi của bạn chưa được lưu. Tiếp tục rời khỏi?'
             };
 
             modalService.showModal({}, modalOptions).then(function (result) {
@@ -101,17 +93,17 @@ define(['app'], function (app) {
             return;
         }
 
-        function getStates() {
-            return dataService.getStates().then(function (states) {
-                vm.states = states;
+        function getCities() {
+            return dataService.getCities().then(function (cities) {
+                vm.cities = cities;
             }, processError);
         }
 
         function processSuccess() {
             $scope.editForm.$dirty = false;
             vm.updateStatus = true;
-            vm.title = 'Edit';
-            vm.buttonText = 'Update';
+            vm.title = 'Sửa';
+            vm.buttonText = 'Cập nhật';
             startTimer();
         }
 

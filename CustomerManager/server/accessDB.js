@@ -1,9 +1,11 @@
 // Module dependencies
-var mongoose = require('mongoose')
-  , Schema = mongoose.Schema
-  , Customer = require('./models/customer')
-  , State = require('./models/state')
-  , util = require('util');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    Customer = require('./models/customer'),
+    State = require('./models/state'),
+    // City = require('./models/city'),
+    Type = require('./models/type'),
+    util = require('util');
 
 // connect to database
 module.exports = {
@@ -83,6 +85,7 @@ module.exports = {
             */
             .skip(skip)
             .limit(top)
+            .populate('type')
             .exec(function (err, customersSummary) {
                 callback(null, {
                     count: count,
@@ -93,34 +96,37 @@ module.exports = {
         });
     },
 
-    getCustomersSummaryByType: function (type, skip, top, callback) {
+    getCustomersSummaryByType: function (typeId, skip, top, callback) {
         console.log('*** accessDB.getCustomersSummaryByType');
-        Customer.count({'type.id': type}, function (err, custsCount) {
-            var count = custsCount;
+        this.getType(typeId, function (err, type) {
+            Customer.count({'type': type}, function (err, custsCount) {
+                var count = custsCount;
 
-            console.log('Customers count: ' + count);
+                console.log('Customers count: ' + count);
 
-            Customer.find({
-                'type.id': type
-            }, {
-                '_id': false,
-                'firstName': true,
-                'lastName': true,
-                'city': true,
-                'state': true,
-                'orderCount': true,
-                'gender': true,
-                'id': true,
-                'address': true,
-                'phone': true,
-                'type': true
-            })
-            .skip(skip)
-            .limit(top)
-            .exec(function (err, customersSummary) {
-                callback(null, {
-                    count: count,
-                    customersSummary: customersSummary
+                Customer.find({
+                    'type': type
+                }, {
+                    '_id': false,
+                    'firstName': true,
+                    'lastName': true,
+                    // 'city': true,
+                    'orderCount': true,
+                    'gender': true,
+                    'id': true,
+                    'address': true,
+                    'phone': true,
+                    'type': true,
+                    'avatar': true
+                })
+                .skip(skip)
+                .limit(top)
+                .populate('type')
+                .exec(function (err, customersSummary) {
+                    callback(null, {
+                        count: count,
+                        customersSummary: customersSummary
+                    });
                 });
             });
         });
@@ -129,62 +135,78 @@ module.exports = {
     // get a  customer
     getCustomer: function (id, callback) {
         console.log('*** accessDB.getCustomer');
-        Customer.find({ 'id': id }, {}, function (err, customer) {
+        Customer.find({
+                id: id
+            }, {
+        })
+        .populate('type')
+        .exec(function (err, customer) {
             callback(null, customer[0]);
         });
     },
 
     // insert a  customer
-    insertCustomer: function (req_body, state, callback) {
+    insertCustomer: function (req_body, callback) {
         console.log('*** accessDB.insertCustomer');
 
-        var customer = new Customer();
-        var s = { 'id': state[0].id, 'abbreviation': state[0].abbreviation, 'name': state[0].name }
+        this.getType(req_body.typeId, function (err, type) {
+            var customer = new Customer();
 
-        customer.firstName = req_body.firstName;
-        customer.lastName = req_body.lastName;
-        customer.email = req_body.email;
-        customer.address = req_body.address;
-        customer.city = req_body.city;
-        customer.state = s;
-        customer.stateId = state[0].id;
-        customer.zip = req_body.zip;
-        customer.gender = req_body.gender;
-        customer.id = 1; // The id is calculated by the Mongoose pre 'save'.
+            customer.firstName = req_body.firstName;
+            customer.lastName = req_body.lastName;
+            customer.phone = req_body.phone;
+            customer.address = req_body.address;
+            // customer.city = req_body.city;
+            customer.type = type;
+            customer.gender = req_body.gender;
+            customer.email = req_body.email;
+            customer.id = 1; // The id is calculated by the Mongoose pre 'save'.
 
-        customer.save(function (err, customer) {
-            if (err) { console.log('*** new customer save err: ' + err); return callback(err); }
+            customer.save(function (err, customer) {
+                if (err) { console.log('*** new customer save err: ' + err); return callback(err); }
 
-            callback(null, customer.id);
+                callback(null, customer.id);
+            });
         });
     },
 
-    editCustomer: function (id, req_body, state, callback) {
+    editCustomer: function (id, req_body, callback) {
         console.log('*** accessDB.editCustomer');
 
-        var s = { 'id': state[0].id, 'abbreviation': state[0].abbreviation, 'name': state[0].name }
+        var that = this;
 
-        Customer.findOne({ 'id': id }, { '_id': 1, 'firstName': 1, 'lastName': 1, 'city': 1, 'state': 1, 'stateId': 1, 'gender': 1, 'id': 1 }, function (err, customer) {
-            if (err) { return callback(err); }
+        Customer.findOne(
+            {
+                'id': id
+            }, {
+                '_id': 1,
+                'firstName': 1,
+                'lastName': 1,
+                'gender': 1,
+                'id': 1,
+                'phone': true,
+                'avatar': true,
+                'address': true
+            }, function (err, customer) {
+                if (err) { return callback(err); }
 
-            customer.firstName = req_body.firstName || customer.firstName;
-            customer.lastName = req_body.lastName || customer.lastName;
-            customer.email = req_body.email || customer.email;
-            customer.address = req_body.address || customer.address;
-            customer.city = req_body.city || customer.city;
-            customer.state = s;
-            customer.stateId = s.id;
-            customer.zip = req_body.zip || customer.zip;
-            customer.gender = req_body.gender || customer.gender;
+                that.getType(req_body.typeId, function (err, type) {
+                    customer.firstName = req_body.firstName || customer.firstName;
+                    customer.lastName = req_body.lastName || customer.lastName;
+                    customer.phone = req_body.phone || customer.phone;
+                    customer.address = req_body.address || customer.address;
+                    customer.type = type || customer.type;
+                    customer.gender = req_body.gender || customer.gender;
+                    customer.email = req_body.email || customer.email;
 
+                    customer.save(function (err) {
+                        if (err) { console.log('*** accessDB.editCustomer err: ' + err); return callback(err); }
 
-            customer.save(function (err) {
-                if (err) { console.log('*** accessDB.editCustomer err: ' + err); return callback(err); }
-
-                callback(null);
-            });
-
-        });
+                        callback(null);
+                    });
+                });
+            }
+        );
     },
 
     // delete a customer
@@ -213,21 +235,39 @@ module.exports = {
 
     },
 
-    // get all the states
-    getStates: function (callback) {
-        console.log('*** accessDB.getStates');
-        State.find({}, {}, { sort: { name: 1 } }, function (err, states) {
-            callback(null, states);
+    // get all the cities
+    getCities: function (callback) {
+        console.log('*** accessDB.getCities');
+        City.find({
+            }, {
+            }, {
+                sort: {
+                    name: 1
+                }
+            }, function (err, cities) {
+                callback(null, cities);
+            }
+        );
+    },
+
+    // get a city
+    getCity: function (cityId, callback) {
+        console.log('*** accessDB.getCity');
+        City.find({
+            id: cityId
+        }, {
+        }, function (err, city) {
+            callback(null, city);
         });
     },
 
-    // get a state
-    getState: function (stateId, callback) {
-        console.log('*** accessDB.getState');
-        State.find({ 'id': stateId }, {}, function (err, state) {
-            callback(null, state);
+    getType: function (typeId, callback) {
+        console.log('*** accessDB.getType');
+        Type.findOne({
+            id: typeId
+        }, {
+        }, function (err, type) {
+            callback(null, type);
         });
     }
-
-
 }
