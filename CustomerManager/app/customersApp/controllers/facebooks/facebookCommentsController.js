@@ -11,11 +11,15 @@ define(['app'], function (app) {
         var vm = this,
             paging = false;
 
+        vm.currentUser = authService.user;
+
         function Comment() {
             this.messages = [];
             this.user = {
                 UID: null,
                 username: null,
+                first_name: null,
+                last_name: null,
                 userProfile: null,
                 avatar: null,
                 registered: false
@@ -25,16 +29,19 @@ define(['app'], function (app) {
 
         function init() {
            initValues();
+           getVideosList();
         }
 
-        vm.getAllCommentsByPost = function () {
-            if (!vm.postId) {
+        vm.getAllCommentsByPost = function (id) {
+            if (!id) {
                 return;
             }
 
             initValues();
 
-            facebookService.video.getCommentsById(authService.user.id + '_' + vm.postId)
+            vm.currentVideoId = id;
+
+            facebookService.video.getCommentsById(vm.currentUser.id + '_' + id)
                 .then(function (res) {
                     if (res && res.data) {
                         populateComments(res.data);
@@ -101,7 +108,13 @@ define(['app'], function (app) {
         vm.createCustomer = function (customer) {
             console.log(customer);
             modalService.show({
-                templateUrl: '/app/customersApp/views/customers/partials/customerModal.html'
+                templateUrl: '/app/customersApp/views/customers/partials/customerModal.html',
+                controller: 'CustomerModalController as vm',
+                resolve: {
+                    customer: function () {
+                        return customer;
+                    }
+                }
             }, {
                 closeButtonText: 'Đóng',
                 actionButtonText: 'Lưu',
@@ -123,18 +136,20 @@ define(['app'], function (app) {
                     comment.user.UID = c.from.id;
                     comment.user.username = c.from.name;
                     comment.user.userProfile = c.from.link;
+                    comment.user.first_name = c.from.first_name;
+                    comment.user.last_name = c.from.last_name;
                     comment.user.avatar = c.from.picture.data ? c.from.picture.data.url : '';
                     comment.messages = [{
-                        text: c.message ? c.message : '(icon)',
-                        created: formatDateTime(new Date(c.created_time))
+                        text: c.message ? c.message : '(icon)'
+                        // created: formatDateTime(new Date(c.created_time))
                     }]
 
                     vm.comments.push(comment);
                     fbIds.push(c.from.id);
                 } else {
                     existedCommentByUsers[0].messages.push({
-                        text: c.message ? c.message : '(icon)',
-                        created: formatDateTime(new Date(c.created_time))
+                        text: c.message ? c.message : '(icon)'
+                        // created: formatDateTime(new Date(c.created_time))
                     });
                 }
             });
@@ -169,6 +184,14 @@ define(['app'], function (app) {
 
             vm.comments = [];
             vm.nextCursor = null;
+        }
+
+        function getVideosList() {
+            FB.api('/me/videos/uploaded', function (res) {
+                if (res) {
+                    vm.videos = res.data || [];
+                }
+            });
         }
 
         function formatDateTime(d) {

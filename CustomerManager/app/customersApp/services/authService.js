@@ -12,6 +12,9 @@ define(['app'], function (app) {
                     isAuthenticated: false,
                     isLoggedFB: false,
                     id: null,
+                    name: null,
+                    avatar: null,
+                    profileLink: null,
                     roles: null
                 }
             };
@@ -36,7 +39,7 @@ define(['app'], function (app) {
                 } else {
                     defer.reslove(false);
                 }
-            }, {scope: 'public_profile,email,user_videos,user_posts'});
+            }, {scope: 'public_profile,email,user_videos,user_posts,read_mailbox'});
 
             return defer.promise;
         };
@@ -77,7 +80,15 @@ define(['app'], function (app) {
         };
 
         factory.getUserInfo = function () {
-
+            if (!factory.user.isLoggedFB) {
+                FB.api('/me', {
+                    fields: 'link,name,picture'
+                }, function (res) {
+                    factory.user.name = res.name;
+                    factory.user.profileLink = res.link;
+                    factory.user.avatar = res.picture.data.url;
+                });
+            }
         };
 
         function changeAuth(loggedIn) {

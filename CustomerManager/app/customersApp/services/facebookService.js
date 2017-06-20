@@ -9,14 +9,15 @@ define(['app'], function (app) {
             factory = {
                 post: {},
                 video: {}
-            };
+            },
+            userFields = 'link,name,picture,first_name,last_name,email,gender';
 
         factory.video.getCommentsById = function (id, token) {
             var defer = $q.defer();
 
             FB.api(
                 '/' + id + '/comments', {
-                    fields: 'from{link,name,picture},id,message,created_time',
+                    fields: 'from{' + userFields + '},id,message,created_time',
                     summary: true
                 }, function (res) {
                     if (res) {

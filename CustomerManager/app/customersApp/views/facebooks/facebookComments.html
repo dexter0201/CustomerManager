@@ -5,21 +5,6 @@
         </header>
         <br />
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <span class="input-group-addon">ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <input type="text" class="form-control" placeholder="Nhập bài viết/video ID" ng-model="vm.postId">
-                </div>
-            </div>
-            <!-- <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon">Access Token</span>
-                    <input type="text" class="form-control" placeholder="Nhập facebook access token" ng-model="vm.token">
-                </div>
-            </div> -->
-        </div>
-
         <hr>
 
         <div class="row">
@@ -34,7 +19,6 @@
         <hr>
 
         <div class="row">
-            <button class="btn btn-primary" ng-click="vm.getAllCommentsByPost()">Lấy danh sách comments</button>
             <button class="btn btn-primary pull-right" type="button">
                 Số người <span class="badge">{{vm.comments.length}}</span>
             </button>
@@ -43,47 +27,95 @@
             </button>
         </div>
     </div>
- <!-- infinite-scroll="vm.getNextComments()" infinite-scroll-distance="3" -->
-    <div class="container facebook-comments-container">
-        <section class="comments" ng-hide="vm.comments.length === 0">
-            <article class="comment" ng-repeat="comment in vm.comments | filter:searchTerm">
-                <a class="comment-img cursor-pointer" ng-click="comment.isCollapsed = !comment.isCollapsed">
-                    <img class="img-circle" src="{{comment.user.avatar}}" alt="" width="50" height="50">
-                </a>
-                <div class="comment-body">
-                    <div class="text"
-                        ng-if="comment.messages.length">
-                        <p>
-                            <span ng-bind-html="comment.messages[0].text | highlightFilter:searchTerm">
-                                {{comment.messages[0].text}}
-                            </span>
-                            <em class="pull-right"> - at {{comment.messages[0].created}}</em>
-                        </p>
+
+    <div class="container-fluid">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img ng-src="{{vm.currentUser.avatar}}"
+                            class="img-responsive"
+                            alt="">
                     </div>
-                    <div collapse="comment.isCollapsed" ng-if="comment.messages.length > 1">
-                        <div class="text"
-                            ng-repeat="msg in comment.messages.slice(1)">
-                            <p>
-                                <span ng-bind-html="msg.text | highlightFilter:searchTerm">{{msg.text}}</span>
-                                <em class="pull-right"> - at {{msg.created}}</em>
-                            </p>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {{vm.currentUser.name}}
+                        </div>
+                        <div class="profile-usertitle-job">
+                            Streamer
                         </div>
                     </div>
-                    <p class="attribution">
-                        by <a  target="_blank" href="{{comment.user.userProfile}}">{{comment.user.username}}</a>
-                        <a class="pull-right"
-                            ng-if="!comment.user.registered"
-                            ng-click="vm.createCustomer(comment.user)"
-                            href="">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </a>
-                        <a class="pull-right" ng-if="comment.user.registered">
-                            <span class="glyphicon glyphicon-ok"></span>
-                        </a>
-                    </p>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR BUTTONS -->
+                    <div class="profile-userbuttons">
+                        <button type="button" class="btn btn-success btn-sm">
+                            Theo dõi
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm">
+                            Nhắn tin
+                        </button>
+                    </div>
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li ng-repeat="video in vm.videos"
+                                ng-class="{'active': video.id === vm.currentVideoId}">
+                                <a href="" ng-click="vm.getAllCommentsByPost(video.id)">
+                                    <i class="glyphicon glyphicon-facetime-video"></i>
+                                    {{ video.description | limitTo: 40}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
                 </div>
-            </article>
-        </section>
+            </div>
+            <div class="col-md-9 facebook-comments-container">
+                <div class="profile-content">
+                    <section class="comments" ng-hide="vm.comments.length === 0">
+                        <article class="comment" ng-repeat="comment in vm.comments | filter:searchTerm">
+                            <a class="comment-img cursor-pointer" ng-click="comment.isCollapsed = !comment.isCollapsed">
+                                <img class="img-circle" src="{{comment.user.avatar}}" alt="" width="50" height="50">
+                            </a>
+                            <div class="comment-body">
+                                <div class="text"
+                                    ng-if="comment.messages.length">
+                                    <p>
+                                        <span ng-bind-html="comment.messages[0].text | highlightFilter:searchTerm">
+                                            {{comment.messages[0].text}}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div collapse="comment.isCollapsed" ng-if="comment.messages.length > 1">
+                                    <div class="text"
+                                        ng-repeat="msg in comment.messages.slice(1)">
+                                        <p>
+                                            <span ng-bind-html="msg.text | highlightFilter:searchTerm">{{msg.text}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="attribution">
+                                    by <a  target="_blank" href="{{comment.user.userProfile}}">{{comment.user.username}}</a>
+                                    <a class="pull-right"
+                                        ng-if="!comment.user.registered"
+                                        ng-click="vm.createCustomer(comment.user)"
+                                        href="">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </a>
+                                    <a class="pull-right" ng-if="comment.user.registered">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </div>
     </div>
 
     <br /><br /><br />

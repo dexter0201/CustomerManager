@@ -22,6 +22,7 @@ require(
         'customersApp/filters/highlightFilter',
         'customersApp/controllers/navbarController',
         'customersApp/controllers/orders/orderChildController',
+        'customersApp/controllers/customers/customerModalController'
     ],
     function () {
         angular.bootstrap(document, ['customersApp']);
