@@ -1,40 +1,10 @@
-<div class="view">
-    <div class="container">
-        <header>
-            <h3><span class="glyphicon glyphicon-edit"></span> {{vm.title}} Khách Hàng</h3>
-        </header>
+<div class="modal-dialog">
+    <div class="modal-header">
+        <h3>{{modalOptions.headerText}}</h3>
+    </div>
+    <div class="modal-body">
         <form name="editForm" novalidate>
             <div class="customerEdit">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>{{ vm.customer.firstName + ' ' + vm.customer.lastName }} <span data-ng-hide="vm.customer.id == 0">(<a style="font-size:12pt" href="#/customerorders/{{vm.customer.id}}">View Orders</a>)</span></h4>
-                        <br />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        First Name:
-                    </div>
-                    <div class="col-md-10">
-                        <input type="text" name="firstName" class="form-control" data-ng-model="vm.customer.firstName" required />
-                        <span class="errorMessage" ng-show="editForm.firstName.$touched && editForm.firstName.$invalid">
-                            Vui lòng nhập First Name
-                        </span>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-md-2">
-                        Last Name:
-                    </div>
-                    <div class="col-md-10">
-                        <input type="text" name="lastName" class="form-control" data-ng-model="vm.customer.lastName" required />
-                        <span class="errorMessage" ng-show="editForm.lastName.$touched && editForm.lastName.$invalid">
-                            Vui lòng nhập Last Name
-                        </span>
-                    </div>
-                </div>
-                <br />
                 <div class="row">
                     <div class="col-md-2">
                         SĐT:
@@ -59,22 +29,6 @@
                     </div>
                 </div>
                 <br />
-                <!-- <div class="row">
-                    <div class="col-md-2">
-                        Tỉnh/Thành phố:
-                    </div>
-                    <div class="col-md-10">
-                        <select name="city" required class="form-control"
-                                data-ng-model="vm.customer.city"
-                                data-ng-options="city.id as city.name for city in vm.cities">
-                            <option value=""></option>
-                        </select>
-                        <span class="errorMessage" ng-show="editForm.city.$touched && editForm.city.$invalid">
-                            Vui lòng chọn tỉnh/thành phố
-                        </span>
-                    </div>
-                </div>
-                <br /> -->
                 <div class="row">
                     <div class="col-md-2">
                         Loại khách:
@@ -94,30 +48,6 @@
                                        data-ng-checked="vm.customer.typeId == 2"
                                        data-ng-model="vm.customer.typeId" />
                                 Sỉ
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-md-2">
-                        Giới tính:
-                    </div>
-                    <div class="col-md-10">
-                        <div class="radio">
-                            <label class="radio">
-                                <input type="radio" name="gender" value="Female"
-                                       data-ng-checked="vm.customer.gender !== 'Male'"
-                                       data-ng-model="vm.customer.gender" />
-                                Nữ
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label class="radio">
-                                <input type="radio" name="gender" value="Male"
-                                       data-ng-checked="vm.customer.gender == 'Male'"
-                                       data-ng-model="vm.customer.gender" />
-                                Nam
                             </label>
                         </div>
                     </div>
@@ -145,17 +75,6 @@
                     </div>
                 </div>
                 <br />
-                <div class="row">
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary" data-ng-click="vm.saveCustomer()"
-                                ng-disabled="editForm.$invalid || !editForm.$dirty">
-                            {{vm.buttonText}}
-                        </button>
-                        &nbsp;&nbsp;
-                        <button class="btn btn-danger" data-ng-if="vm.customer.id > 0" data-ng-click="vm.deleteCustomer()">Xóa</button>
-                    </div>
-                </div>
-                <br />
                 <div class="statusRow">
                     <br />
                     <div class="label label-success" data-ng-show="vm.updateStatus">
@@ -171,4 +90,9 @@
             </div>
         </form>
     </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+        <button class="btn btn-primary" data-ng-click="modalOptions.ok();">{{modalOptions.actionButtonText}}</button>
+    </div>
 </div>
+

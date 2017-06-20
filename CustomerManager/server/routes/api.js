@@ -177,6 +177,24 @@ exports.checkUnique = function (req, res) {
     });
 };
 
+exports.checkFbCustomers = function (req, res) {
+    console.log('*** checkFbCustomers');
+    var fbIds = req.query.fbIds ? req.query.fbIds.split(',') : [];
+
+    db.checkCustomersByFbIds(fbIds, function (err, customers) {
+        if (err) {
+            console.log('*** checkFbCustomers err');
+            res.json({
+                status: false
+            });
+        } else {
+            console.log('*** checkFbCustomers ok');
+            res.json(customers);
+        }
+
+    });
+};
+
 exports.login = function (req, res) {
     console.log('*** login');
     var userLogin = req.body.userLogin;

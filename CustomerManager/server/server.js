@@ -43,9 +43,11 @@ var db = new DB.startup(conn);
 app.get('/', routes.index);
 
 // JSON API
-var baseUrl = '/api/dataservice/';
+var baseUrl = '/api/dataservice/',
+    fbPrefix = 'fb/'
 
 app.get(baseUrl + 'Customers', api.customers);
+app.get(baseUrl + fbPrefix + 'CheckCustomers', api.checkFbCustomers);
 app.get(baseUrl + 'Customer/:id', api.customer);
 app.get(baseUrl + 'CustomersSummary', api.customersSummary);
 app.get(baseUrl + 'CustomersSummaryByType', api.customersSummaryByType);

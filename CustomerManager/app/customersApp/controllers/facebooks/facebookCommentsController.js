@@ -12,7 +12,7 @@ define(['app'], function (app) {
             paging = false;
 
         function Comment() {
-            this.messages = null;
+            this.messages = [];
             this.user = {
                 UID: null,
                 username: null,
@@ -24,7 +24,6 @@ define(['app'], function (app) {
         }
 
         function init() {
-            // getCommentsByPost('1881435888795791');
            initValues();
         }
 
@@ -101,6 +100,14 @@ define(['app'], function (app) {
 
         vm.createCustomer = function (customer) {
             console.log(customer);
+            modalService.show({
+                templateUrl: '/app/customersApp/views/customers/partials/customerModal.html'
+            }, {
+                closeButtonText: 'Đóng',
+                actionButtonText: 'Lưu',
+                headerText: 'Lưu thông tin khách hàng',
+                bodyText: 'Perform this action?'
+            });
         };
 
         function populateComments(comments) {
@@ -136,7 +143,21 @@ define(['app'], function (app) {
         }
 
         function checkRegistered(fbIds) {
+            dataService.checkCustomers(fbIds).then(function (res) {
+                if (res && Array.isArray(res)) {
+                    res.forEach(function (r) {
+                        if (r && r.facebook && r.facebook.id) {
+                            var comment = vm.comments.find(function (c) {
+                                return c.user.id === r.facebook.id
+                            });
 
+                            if (comment) {
+                                comment.user.registered = true;
+                            }
+                        }
+                    });
+                }
+            });
         }
 
         function initValues() {

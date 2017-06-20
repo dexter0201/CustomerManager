@@ -235,6 +235,17 @@ module.exports = {
 
     },
 
+    checkCustomersByFbIds: function (fbIds, callback) {
+        console.log('*** accessDB.checkCustomersByFbIds');
+        Customer.find({
+            'facebook.id': {
+                $in: fbIds
+            }
+        }, function (err, customers) {
+            callback(err, customers);
+        });
+    },
+
     // get all the cities
     getCities: function (callback) {
         console.log('*** accessDB.getCities');

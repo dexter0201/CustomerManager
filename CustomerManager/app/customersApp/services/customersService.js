@@ -89,7 +89,13 @@ define(['app'], function (app) {
             });
         };
 
-        // factory.checkCustomer
+        factory.checkCustomers = function (fbIds) {
+            return $http
+                .get(serviceBase + 'fb/checkCustomers/' + '?fbIds=' + fbIds.join(','))
+                .then(function (results) {
+                    return results.data;
+                });
+        };
 
         function extendCustomers(customers) {
             var custsLen = customers.length;
@@ -109,7 +115,6 @@ define(['app'], function (app) {
 
         function getPagedResource(baseResource, params) {
             var resource = baseResource;
-            // resource += (arguments.length == 3) ? buildPagingUri(pageIndex, pageSize) : '';
 
             resource += buildPagingUri(params);
 
@@ -134,7 +139,6 @@ define(['app'], function (app) {
             return uri;
         }
 
-        // is this still used???
         function orderTotal(order) {
             return order.quantity * order.price;
         };
