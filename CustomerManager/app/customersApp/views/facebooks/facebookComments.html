@@ -6,18 +6,18 @@
         <br />
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="input-group">
-                    <span class="input-group-addon">ID</span>
+                    <span class="input-group-addon">ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <input type="text" class="form-control" placeholder="Nhập bài viết/video ID" ng-model="vm.postId">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <!-- <div class="col-lg-6">
                 <div class="input-group">
                     <span class="input-group-addon">Access Token</span>
                     <input type="text" class="form-control" placeholder="Nhập facebook access token" ng-model="vm.token">
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <hr>
@@ -48,7 +48,7 @@
         <section class="comments" ng-hide="vm.comments.length === 0">
             <article class="comment" ng-repeat="comment in vm.comments | filter:searchTerm">
                 <a class="comment-img cursor-pointer" ng-click="comment.isCollapsed = !comment.isCollapsed">
-                    <img class="img-circle" src="{{comment.avatar}}" alt="" width="50" height="50">
+                    <img class="img-circle" src="{{comment.user.avatar}}" alt="" width="50" height="50">
                 </a>
                 <div class="comment-body">
                     <div class="text"
@@ -69,7 +69,18 @@
                             </p>
                         </div>
                     </div>
-                    <p class="attribution">by <a  target="_blank" href="{{comment.userProfile}}">{{comment.username}}</a></p>
+                    <p class="attribution">
+                        by <a  target="_blank" href="{{comment.user.userProfile}}">{{comment.user.username}}</a>
+                        <a class="pull-right"
+                            ng-if="!comment.user.registered"
+                            ng-click="vm.createCustomer(comment.user)"
+                            href="">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                        <a class="pull-right" ng-if="comment.user.registered">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </a>
+                    </p>
                 </div>
             </article>
         </section>

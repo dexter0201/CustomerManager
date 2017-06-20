@@ -89,6 +89,8 @@ define(['app'], function (app) {
             });
         };
 
+        // factory.checkCustomer
+
         function extendCustomers(customers) {
             var custsLen = customers.length;
             //Iterate through customers

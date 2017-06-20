@@ -2,14 +2,16 @@
 
 define(['app'], function (app) {
 
-    var injectParams = ['$http', '$rootScope'];
+    var injectParams = ['$http', '$rootScope', '$q'];
 
-    var authFactory = function ($http, $rootScope) {
+    var authFactory = function ($http, $rootScope, $q) {
         var serviceBase = '/api/dataservice/',
             factory = {
                 loginPath: '/login',
                 user: {
                     isAuthenticated: false,
+                    isLoggedFB: false,
+                    id: null,
                     roles: null
                 }
             };
@@ -23,14 +25,36 @@ define(['app'], function (app) {
                 });
         };
 
+        factory.loginWithFB = function () {
+            var defer = $q.defer();
+
+            FB.login(function (res) {
+                fbAuthResponseChange(res);
+
+                if (res.status === 'connected') {
+                    defer.resolve(true);
+                } else {
+                    defer.reslove(false);
+                }
+            }, {scope: 'public_profile,email,user_videos,user_posts'});
+
+            return defer.promise;
+        };
+
         factory.logout = function () {
             var _self = this;
 
-            FB.logout(function (res) {
-                $rootScope.$apply(function () {
-                    $rootScope.user = _self.user = {};
+            if (factory.user.isLoggedFB) {
+                FB.logout(function (res) {
+                    $rootScope.$apply(function () {
+                        $rootScope.user = _self.user = {};
+                    });
+                    factory.user.isLoggedFB = false;
+                    factory.user.id = null;
                 });
-            });
+
+                changeAuth(false);
+            }
 
             return $http.post(serviceBase + 'logout').then(
                 function (results) {
@@ -48,41 +72,45 @@ define(['app'], function (app) {
             var _self = this;
 
             FB.Event.subscribe('auth.authResponseChange', function (res) {
-                if (res.status === 'connected') {
-                    /**
-                     * The user is already logged,
-                     * is possible retrieve his/her personal info
-                     */
-                    _self.getUserInfo();
-
-                    /**
-                     * This is also the point where you should create
-                     * a session for the current user.
-                     * For this purpose you can use the data inside the
-                     * res.authResponse object
-                     */
-                } else {
-                    /**
-                     * The user is not logged to the app, or into Facebook:
-                     * destrpoy the session on the server.
-                     */
-                }
+                fbAuthResponseChange(res);
             });
         };
 
         factory.getUserInfo = function () {
-            var _self = this;
 
-            FB.api('/me', function (res) {
-                $rootScope.$apply(function () {
-                    $rootScope.user = _self.user = res;
-                });
-            });
         };
 
         function changeAuth(loggedIn) {
             factory.user.isAuthenticated = loggedIn;
             $rootScope.$broadcast('loginStatusChanged', loggedIn);
+        }
+
+        function fbAuthResponseChange(res) {
+            if (res.status === 'connected') {
+                /**
+                 * The user is already logged,
+                 * is possible retrieve his/her personal info
+                 */
+                factory.getUserInfo();
+
+                /**
+                 * This is also the point where you should create
+                 * a session for the current user.
+                 * For this purpose you can use the data inside the
+                 * res.authResponse object
+                 */
+                changeAuth(true);
+                factory.user.isLoggedFB = true;
+                factory.user.id = res.authResponse.userID;
+            } else {
+                /**
+                 * The user is not logged to the app, or into Facebook:
+                 * destrpoy the session on the server.
+                 */
+                changeAuth(false);
+                factory.user.isLoggedFB = false;
+                factory.user.id = null;
+            }
         }
 
         return factory;

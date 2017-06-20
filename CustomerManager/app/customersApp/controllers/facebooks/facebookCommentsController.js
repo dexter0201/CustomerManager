@@ -9,15 +9,17 @@ define(['app'], function (app) {
         $timeout, authService, dataService, modalService, facebookService) {
 
         var vm = this,
-            paging = false,
-            USERID = '346868925485831';
+            paging = false;
 
         function Comment() {
-            this.username = null;
-            this.UID = null;
             this.messages = null;
-            this.userProfile = null;
-            this.avatar = null;
+            this.user = {
+                UID: null,
+                username: null,
+                userProfile: null,
+                avatar: null,
+                registered: false
+            };
             this.isCollapsed = true;
         }
 
@@ -33,7 +35,7 @@ define(['app'], function (app) {
 
             initValues();
 
-            facebookService.video.getCommentsById(USERID + '_' + vm.postId, vm.token)
+            facebookService.video.getCommentsById(authService.user.id + '_' + vm.postId)
                 .then(function (res) {
                     if (res && res.data) {
                         populateComments(res.data);
@@ -97,31 +99,44 @@ define(['app'], function (app) {
             }
         };
 
+        vm.createCustomer = function (customer) {
+            console.log(customer);
+        };
+
         function populateComments(comments) {
+            var fbIds = [];
+
             comments.forEach(function (c) {
                 var existedCommentByUsers = vm.comments.filter(function (item) {
-                    return item.UID === c.from.id;
+                    return item.user.UID === c.from.id;
                 });
 
                 if (existedCommentByUsers.length === 0) {
                     var comment = new Comment();
-                    comment.UID = c.from.id;
-                    comment.username = c.from.name;
-                    comment.userProfile = c.from.link;
-                    comment.avatar = c.from.picture.data ? c.from.picture.data.url : '';
+                    comment.user.UID = c.from.id;
+                    comment.user.username = c.from.name;
+                    comment.user.userProfile = c.from.link;
+                    comment.user.avatar = c.from.picture.data ? c.from.picture.data.url : '';
                     comment.messages = [{
-                        text: c.message,
+                        text: c.message ? c.message : '(icon)',
                         created: formatDateTime(new Date(c.created_time))
                     }]
 
                     vm.comments.push(comment);
+                    fbIds.push(c.from.id);
                 } else {
                     existedCommentByUsers[0].messages.push({
-                        text: c.message,
+                        text: c.message ? c.message : '(icon)',
                         created: formatDateTime(new Date(c.created_time))
                     });
                 }
             });
+
+            checkRegistered(fbIds);
+        }
+
+        function checkRegistered(fbIds) {
+
         }
 
         function initValues() {

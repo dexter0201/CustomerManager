@@ -12,17 +12,22 @@ define(['app'], function (app) {
             };
 
         factory.video.getCommentsById = function (id, token) {
-            return $http({
-                url: serviceBase + id + '/comments',
-                method: 'GET',
-                params: {
-                    access_token: token,
+            var defer = $q.defer();
+
+            FB.api(
+                '/' + id + '/comments', {
                     fields: 'from{link,name,picture},id,message,created_time',
                     summary: true
+                }, function (res) {
+                    if (res) {
+                        defer.resolve(res);
+                    } else {
+                        defer.reject();
+                    }
                 }
-            }).then(function (res) {
-                return res.data;
-            });
+            );
+
+            return defer.promise;
         };
 
         factory.video.getNextComments = function (nextCursor) {

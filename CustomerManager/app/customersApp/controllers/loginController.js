@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 define(['app'], function (app) {
 
@@ -11,13 +11,33 @@ define(['app'], function (app) {
         vm.email = null;
         vm.password = null;
         vm.errorMessage = null;
+        vm.facebookBtnText = 'Continue With Facebook';
 
         vm.login = function () {
             authService.login(vm.email, vm.password).then(function (status) {
                 //$routeParams.redirect will have the route
                 //they were trying to go to initially
                 if (!status) {
-                    vm.errorMessage = 'Unable to login';
+                    vm.errorMessage = 'Không thể login';
+                    return;
+                }
+
+                if (status && $routeParams && $routeParams.redirect) {
+                    path = path + $routeParams.redirect;
+                }
+
+                $location.path(path);
+            });
+        };
+
+        vm.loginFacebookCallback = function () {
+            console.log('obj');
+        };
+
+        vm.loginWithFacebook = function () {
+            authService.loginWithFB().then(function (status) {
+                if (!status) {
+                    vm.errorMessage = 'Không thể login';
                     return;
                 }
 

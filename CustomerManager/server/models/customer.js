@@ -54,7 +54,6 @@ var CustomerSchema = new Schema({
     },
     email : {
         type : String,
-        required: true,
         trim: true
     },
     address : {
@@ -74,6 +73,11 @@ var CustomerSchema = new Schema({
         required: true,
         unique: true
     },
+    enable: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
     orderCount : {
         type : Number,
     },
@@ -82,7 +86,21 @@ var CustomerSchema = new Schema({
         required: true
     },
     facebook: {
-        type: String
+        id: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        name: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        profileLink: {
+            type: String,
+            required: true,
+            trim: true
+        }
     },
     orders: [OrderSchema],
     type: {

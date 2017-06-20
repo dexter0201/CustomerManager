@@ -34,10 +34,10 @@ define(['customersApp/services/routeResolver'], function () {
                 //The second parameter allows for putting related controllers/views into subfolders to better organize large projects
                 //Thanks to Ton Yeung for the idea and contribution
                 .when('/customers', route.resolve('Customers', 'customers/', 'vm'))
-                .when('/customerorders/:customerId', route.resolve('CustomerOrders', 'customers/', 'vm'))
+                .when('/customerorders/:customerId', route.resolve('CustomerOrders', 'customers/', 'vm', true))
                 .when('/customeredit/:customerId', route.resolve('CustomerEdit', 'customers/', 'vm', true))
                 .when('/orders', route.resolve('Orders', 'orders/', 'vm'))
-                .when('/facebook', route.resolve('FacebookComments', 'facebooks/', 'vm'))
+                .when('/facebook', route.resolve('FacebookComments', 'facebooks/', 'vm', true))
                 .when('/about', route.resolve('About', '', 'vm'))
                 .when('/login/:redirect*?', route.resolve('Login', '', 'vm'))
                 .otherwise({ redirectTo: '/customers' });
@@ -69,7 +69,7 @@ define(['customersApp/services/routeResolver'], function () {
                      * To register a new app visit Facebook App Dashboard
                      * https://developers.facebook.com/apps/
                      */
-                    appId: '413897558991905',//'145634995501895', // Daisy App: 413897558991905
+                    appId: '1943972805878816',//'413897558991905',//'145634995501895', // Daisy App: 413897558991905; 130100497551279
 
                     /**
                      * Adding a Channel File improves the performance
@@ -98,10 +98,12 @@ define(['customersApp/services/routeResolver'], function () {
                     /**
                      * Facebook API version
                      */
-                    version: 'v2.8'
+                    version: 'v2.9'
                 });
 
                 FB.AppEvents.logPageView();
+
+                authService.watchAuthenticationStatusChange();
             };
 
             (function (d, id, script) {

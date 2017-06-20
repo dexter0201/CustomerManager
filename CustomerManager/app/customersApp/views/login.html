@@ -1,4 +1,4 @@
-﻿<div class="view">
+<div class="view">
     <div class="container">
         <header>
             <h3><span class="glyphicon glyphicon-lock"></span> Login</h3>
@@ -39,12 +39,30 @@
                                 ng-disabled="loginForm.$invalid || !loginForm.$dirty">
                             Login
                         </button>
+                        <button type="submit"
+                            class="btn btn-primary"
+                            data-ng-click="vm.loginWithFacebook()">
+                            {{vm.facebookBtnText}}
+                        </button>
                     </div>
 
                     <br />
-                    <div class="col-md-12">
-                        <fb:login-button show-faces="true" max-rows="1" size="large"></fb:login-button>
-                    </div>
+                    <!-- <div class="col-md-12">
+                        <fb:login-button show-faces="true"
+                            max-rows="1"
+                            size="large"
+                            onlogin="vm.loginFacebookCallback">
+                        </fb:login-button>
+                        <div class="fb-login-button"
+                            data-max-rows="1"
+                            data-size="large"
+                            data-button-type="continue_with"
+                            data-show-faces="false"
+                            data-auto-logout-link="true"
+                            data-use-continue-as="true"
+                            onlogin="vm.loginFacebookCallback">
+                        </div>
+                    </div> -->
                 </div>
                 <br />
                 <div class="statusRow">

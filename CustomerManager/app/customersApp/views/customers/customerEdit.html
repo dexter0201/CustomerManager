@@ -110,7 +110,6 @@
                                        data-ng-checked="vm.customer.gender !== 'Male'"
                                        data-ng-model="vm.customer.gender" />
                                 Nữ
-                                <br />
                             </label>
                         </div>
                         <div class="radio">
@@ -138,8 +137,7 @@
                                data-wc-unique
                                data-wc-unique-key="{{vm.customer.id}}"
                                data-wc-unique-property="email"
-                               data-ng-minlength="3"
-                               required />
+                               data-ng-minlength="3" />
                         <!-- Show error if touched and unique is in error -->
                         <span class="errorMessage" ng-show="editForm.email.$touched && editForm.email.$error.unique">
                             Email đã được sử dụng
