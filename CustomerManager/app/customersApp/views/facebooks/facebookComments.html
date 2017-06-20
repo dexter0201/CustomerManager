@@ -4,11 +4,8 @@
             <h3><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Facebook API</h3>
         </header>
         <br />
-
-        <hr>
-
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-10 pull-right">
                 <div class="input-group">
                     <span class="input-group-addon">Tìm kiếm</span>
                     <input type="text" class="form-control" placeholder="Nhập từ khoá tìm kiếm" ng-model="searchTerm">
@@ -34,9 +31,10 @@
                 <div class="profile-sidebar">
                     <!-- SIDEBAR USERPIC -->
                     <div class="profile-userpic">
-                        <img ng-src="{{vm.currentUser.avatar}}"
-                            class="img-responsive"
-                            alt="">
+                        <a href="{{vm.currentUser.profileLink}}" target="_blank">
+                            <img ng-src="{{vm.currentUser.avatar}}"
+                            class="img-responsive">
+                        </a>
                     </div>
                     <!-- END SIDEBAR USERPIC -->
                     <!-- SIDEBAR USER TITLE -->
@@ -62,7 +60,7 @@
                     <!-- SIDEBAR MENU -->
                     <div class="profile-usermenu">
                         <ul class="nav">
-                            <li ng-repeat="video in vm.videos"
+                            <li ng-repeat="video in vm.videos | limitTo : 4"
                                 ng-class="{'active': video.id === vm.currentVideoId}">
                                 <a href="" ng-click="vm.getAllCommentsByPost(video.id)">
                                     <i class="glyphicon glyphicon-facetime-video"></i>

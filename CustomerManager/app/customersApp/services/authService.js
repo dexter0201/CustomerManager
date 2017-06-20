@@ -82,7 +82,7 @@ define(['app'], function (app) {
         factory.getUserInfo = function () {
             if (!factory.user.isLoggedFB) {
                 FB.api('/me', {
-                    fields: 'link,name,picture'
+                    fields: 'link,name,picture.type(large)'
                 }, function (res) {
                     factory.user.name = res.name;
                     factory.user.profileLink = res.link;
