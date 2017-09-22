@@ -4,13 +4,13 @@ var express = require('express'),
     session = require('express-session'),
     errorhandler = require('errorhandler'),
     csrf = require('csurf'),
-    routes = require('./routes'),
-    api = require('./routes/api'),
-    DB = require('./accessDB'),
-    protectJSON = require('./lib/protectJSON'),
+    routes = require('./server/routes'),
+    api = require('./server/routes/api'),
+    DB = require('./server/accessDB'),
+    protectJSON = require('./server/lib/protectJSON'),
     app = express();
 
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/server/views');
 app.set('view engine', 'jade');
 app.use(session({
     secret: 'customermanagerstandard',
@@ -19,7 +19,7 @@ app.use(session({
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/../'));
+app.use(express.static(__dirname));
 app.use(errorhandler());
 app.use(protectJSON);
 app.use(csrf());
