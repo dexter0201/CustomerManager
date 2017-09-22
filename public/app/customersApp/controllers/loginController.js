@@ -11,7 +11,7 @@ define(['app'], function (app) {
         vm.email = null;
         vm.password = null;
         vm.errorMessage = null;
-        vm.facebookBtnText = 'Continue With Facebook';
+        vm.facebookBtnText = 'Đăng nhập bằng Facebook';
 
         vm.login = function () {
             authService.login(vm.email, vm.password).then(function (status) {

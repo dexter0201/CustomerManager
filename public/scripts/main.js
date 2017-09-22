@@ -1,5 +1,5 @@
-﻿require.config({
-    baseUrl: 'app',
+require.config({
+    baseUrl: 'public/app',
     urlArgs: 'v=1.0'
 });
 

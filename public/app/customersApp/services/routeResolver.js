@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 define([], function () {
 
@@ -9,8 +9,8 @@ define([], function () {
         };
 
         this.routeConfig = function () {
-            var viewsDirectory = '/app/customersApp/views/',
-                controllersDirectory = '/app/customersApp/controllers/',
+            var viewsDirectory = 'public/app/customersApp/views/',
+                controllersDirectory = 'public/app/customersApp/controllers/',
 
             setBaseDirectories = function (viewsDir, controllersDir) {
                 viewsDirectory = viewsDir;
@@ -72,6 +72,6 @@ define([], function () {
 
     var servicesApp = angular.module('routeResolverServices', []);
 
-    //Must be a provider since it will be injected into module.config()    
+    //Must be a provider since it will be injected into module.config()
     servicesApp.provider('routeResolver', routeResolver);
 });

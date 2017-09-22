@@ -1,44 +1,12 @@
 <div class="view">
     <div class="container">
         <header>
-            <h3><span class="glyphicon glyphicon-lock"></span> Login</h3>
+            <h3><span class="glyphicon glyphicon-lock"></span> Đăng nhập</h3>
         </header>
         <form name="loginForm" novalidate>
             <div class="login">
                 <div class="row">
-                    <div class="col-md-2">
-                        Email:
-                    </div>
-                    <div class="col-md-10">
-                        <input type="email" name="email" class="form-control" data-ng-model="vm.email" required />
-                        <span class="errorMessage" ng-show="loginForm.email.$touched && loginForm.email.$invalid">
-                            Email is required
-                        </span>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-md-2">
-                        Password:
-                    </div>
-                    <div class="col-md-10">
-                        <input type="password" name="password" class="form-control"
-                               data-ng-model="vm.password"
-                               data-ng-minlength="6"
-                               required />
-                        <span class="errorMessage" ng-show="loginForm.password.$touched && loginForm.password.$invalid">
-                            Password is required
-                        </span>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary"
-                                data-ng-click="vm.login()"
-                                ng-disabled="loginForm.$invalid || !loginForm.$dirty">
-                            Login
-                        </button>
                         <button type="submit"
                             class="btn btn-primary"
                             data-ng-click="vm.loginWithFacebook()">
@@ -47,22 +15,6 @@
                     </div>
 
                     <br />
-                    <!-- <div class="col-md-12">
-                        <fb:login-button show-faces="true"
-                            max-rows="1"
-                            size="large"
-                            onlogin="vm.loginFacebookCallback">
-                        </fb:login-button>
-                        <div class="fb-login-button"
-                            data-max-rows="1"
-                            data-size="large"
-                            data-button-type="continue_with"
-                            data-show-faces="false"
-                            data-auto-logout-link="true"
-                            data-use-continue-as="true"
-                            onlogin="vm.loginFacebookCallback">
-                        </div>
-                    </div> -->
                 </div>
                 <br />
                 <div class="statusRow">
