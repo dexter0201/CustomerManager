@@ -20,7 +20,7 @@
                 Số người <span class="badge">{{vm.comments.length}}</span>
             </button>
             <button class="btn btn-primary pull-right" type="button">
-                Tổng comments <span class="badge">{{vm.totalComments.actual}}</span>
+                Tổng comments <span class="badge">{{vm.totalComments.actual}}/{{vm.totalComments.fb}}</span>
             </button>
         </div>
     </div>
@@ -97,16 +97,24 @@
                                     </div>
                                 </div>
                                 <p class="attribution">
-                                    by <a  target="_blank" href="{{comment.user.userProfile}}">{{comment.user.username}}</a>
-                                    <a class="pull-right"
-                                        ng-if="!comment.user.registered"
+                                   <a ng-click="vm.sendMessage(comment.user)" href="">
+                                        <span class="glyphicon glyphicon-envelope"></span>
+                                    </a>
+
+                                    <a ng-if="!comment.user.registered"
                                         ng-click="vm.createCustomer(comment.user)"
+                                        class="pull-right"
                                         href="">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </a>
-                                    <a class="pull-right" ng-if="comment.user.registered">
+                                    <a class="pull-right"
+                                       ng-if="comment.user.registered">
                                         <span class="glyphicon glyphicon-ok"></span>
                                     </a>
+
+                                    <span class="pull-right by-fb-user">
+                                        by <a  target="_blank" href="{{comment.user.userProfile}}">{{comment.user.username}}</a>
+                                    </span>
                                 </p>
                             </div>
                         </article>

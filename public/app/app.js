@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 define(['customersApp/services/routeResolver'], function () {
 
@@ -69,7 +69,7 @@ define(['customersApp/services/routeResolver'], function () {
                      * To register a new app visit Facebook App Dashboard
                      * https://developers.facebook.com/apps/
                      */
-                    appId: '1943972805878816',//'413897558991905',//'145634995501895', // Daisy App: 413897558991905; 130100497551279
+                    appId: '402099460169195',//
 
                     /**
                      * Adding a Channel File improves the performance

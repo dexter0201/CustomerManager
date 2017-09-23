@@ -1,3 +1,5 @@
+'use strict';
+
 // Module dependencies
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
@@ -30,7 +32,7 @@ module.exports = {
     // get all the customers
     getCustomers: function (skip, top, callback) {
         console.log('*** accessDB.getCustomers');
-        Customer.count(function(err, custsCount) {
+        Customer.count(function (err, custsCount) {
             var count = custsCount;
             console.log('Customers count: ' + count);
 
@@ -41,14 +43,14 @@ module.exports = {
                     console.log('Customers count: ' + customers.length);
                     count = customers.length;
                 })*/
-            .skip(skip)
-            .limit(top)
-            .exec(function (err, customers) {
-                callback(null, {
-                    count: count,
-                    customers: customers
+                .skip(skip)
+                .limit(top)
+                .exec(function (err, customers) {
+                    callback(null, {
+                        count: count,
+                        customers: customers
+                    });
                 });
-            });
 
         });
     },
@@ -62,7 +64,8 @@ module.exports = {
             console.log('Customers count: ' + count);
 
             Customer.find(
-                {}, {
+                {},
+                {
                     '_id': false,
                     'firstName': true,
                     'lastName': true,
@@ -83,16 +86,15 @@ module.exports = {
                 count = customersSummary.length;
             })
             */
-            .skip(skip)
-            .limit(top)
-            .populate('type')
-            .exec(function (err, customersSummary) {
-                callback(null, {
-                    count: count,
-                    customersSummary: customersSummary
+                .skip(skip)
+                .limit(top)
+                .populate('type')
+                .exec(function (err, customersSummary) {
+                    callback(null, {
+                        count: count,
+                        customersSummary: customersSummary
+                    });
                 });
-            });
-
         });
     },
 
@@ -119,15 +121,15 @@ module.exports = {
                     'type': true,
                     'avatar': true
                 })
-                .skip(skip)
-                .limit(top)
-                .populate('type')
-                .exec(function (err, customersSummary) {
-                    callback(null, {
-                        count: count,
-                        customersSummary: customersSummary
+                    .skip(skip)
+                    .limit(top)
+                    .populate('type')
+                    .exec(function (err, customersSummary) {
+                        callback(null, {
+                            count: count,
+                            customersSummary: customersSummary
+                        });
                     });
-                });
             });
         });
     },
@@ -136,16 +138,31 @@ module.exports = {
     getCustomer: function (id, callback) {
         console.log('*** accessDB.getCustomer');
         Customer.find({
-                id: id
-            }, {
+            id: id
+        }, {
         })
-        .populate('type')
-        .exec(function (err, customer) {
-            callback(null, customer[0]);
-        });
+            .populate('type')
+            .exec(function (err, customer) {
+                callback(null, customer[0]);
+            });
     },
 
-    // insert a  customer
+    getCustomerByFbId: function (fbId, callback) {
+        console.log('*** accessDB.getCustomerByFbId', fbId);
+        Customer.find({
+            'facebook.id': fbId
+        })
+            .populate('type')
+            .exec(function (err, customer) {
+                if (err || (customer && !customer.length)) {
+                    callback(true, null);
+                } else {
+                    callback(null, customer[0]);
+                }
+            });
+    },
+
+    // insert a customer
     insertCustomer: function (req_body, callback) {
         console.log('*** accessDB.insertCustomer');
 
@@ -156,11 +173,14 @@ module.exports = {
             customer.lastName = req_body.lastName;
             customer.phone = req_body.phone;
             customer.address = req_body.address;
-            // customer.city = req_body.city;
             customer.type = type;
             customer.gender = req_body.gender;
             customer.email = req_body.email;
             customer.id = 1; // The id is calculated by the Mongoose pre 'save'.
+            customer.facebook.id = req_body.fbId;
+            customer.facebook.name = req_body.fbName;
+            customer.facebook.link = req_body.fbLink;
+            customer.facebook.avatar = req_body.fbAvatar;
 
             customer.save(function (err, customer) {
                 if (err) { console.log('*** new customer save err: ' + err); return callback(err); }
@@ -178,7 +198,8 @@ module.exports = {
         Customer.findOne(
             {
                 'id': id
-            }, {
+            },
+            {
                 '_id': 1,
                 'firstName': 1,
                 'lastName': 1,
@@ -186,8 +207,11 @@ module.exports = {
                 'id': 1,
                 'phone': true,
                 'avatar': true,
-                'address': true
-            }, function (err, customer) {
+                'address': true,
+                'facebook': true,
+                'email': true
+            },
+            function (err, customer) {
                 if (err) { return callback(err); }
 
                 that.getType(req_body.typeId, function (err, type) {
@@ -198,6 +222,9 @@ module.exports = {
                     customer.type = type || customer.type;
                     customer.gender = req_body.gender || customer.gender;
                     customer.email = req_body.email || customer.email;
+                    customer.facebook.name = req_body.fbName || customer.facebook.id;
+                    customer.facebook.link = req_body.fbLink || customer.facebook.link;
+                    customer.facebook.avatar = req_body.fbAvatar || customer.facebook.avatar;
 
                     customer.save(function (err) {
                         if (err) { console.log('*** accessDB.editCustomer err: ' + err); return callback(err); }
@@ -220,17 +247,17 @@ module.exports = {
     // get a  customer's email
     checkUnique: function (id, property, value, callback) {
         console.log('*** accessDB.checkUnique');
-        console.log(id + ' ' + value)
+        console.log(id + ' ' + value);
         switch (property) {
-            case 'email':
-                Customer.findOne({ 'email': value, 'id': { $ne: id} })
-                        .select('email')
-                        .exec(function (err, customer) {
-                            console.log(customer)
-                            var status = (customer) ? false : true;
-                            callback(null, {status: status});
-                        });
-                break;
+        case 'email':
+            Customer.findOne({ 'email': value, 'id': { $ne: id} })
+                    .select('email')
+                    .exec(function (err, customer) {
+                    console.log(customer);
+                    var status = (customer) ? false : true;
+                    callback(null, {status: status});
+                });
+            break;
         }
 
     },
@@ -247,7 +274,7 @@ module.exports = {
     },
 
     // get all the cities
-    getCities: function (callback) {
+    /*getCities: function (callback) {
         console.log('*** accessDB.getCities');
         City.find({
             }, {
@@ -270,7 +297,7 @@ module.exports = {
         }, function (err, city) {
             callback(null, city);
         });
-    },
+    },*/
 
     getType: function (typeId, callback) {
         console.log('*** accessDB.getType');
@@ -281,4 +308,4 @@ module.exports = {
             callback(null, type);
         });
     }
-}
+};

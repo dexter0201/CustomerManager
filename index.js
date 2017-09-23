@@ -15,7 +15,8 @@ app.set('view engine', 'jade');
 app.use(session({
     secret: 'customermanagerstandard',
     saveUninitialized: true,
-    resave: true }));
+    resave: true
+}));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -47,13 +48,14 @@ var baseUrl = '/api/dataservice/',
     fbPrefix = 'fb/'
 
 app.get(baseUrl + 'Customers', api.customers);
-app.get(baseUrl + fbPrefix + 'CheckCustomers', api.checkFbCustomers);
+//app.get(baseUrl + fbPrefix + 'CheckCustomers', api.checkFbCustomers);
 app.get(baseUrl + 'Customer/:id', api.customer);
 app.get(baseUrl + 'CustomersSummary', api.customersSummary);
 app.get(baseUrl + 'CustomersSummaryByType', api.customersSummaryByType);
 app.get(baseUrl + 'CustomerById/:id', api.customer);
 
 app.post(baseUrl + 'PostCustomer', api.addCustomer);
+app.post(baseUrl + 'AddOrEditCustomer', api.addOrEditCustomer);
 app.put(baseUrl + 'PutCustomer/:id', api.editCustomer);
 app.delete(baseUrl + 'DeleteCustomer/:id', api.deleteCustomer);
 

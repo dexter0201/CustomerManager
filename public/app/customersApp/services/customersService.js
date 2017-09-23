@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 define(['app'], function (app) {
 
@@ -55,6 +55,13 @@ define(['app'], function (app) {
 
         factory.insertCustomer = function (customer) {
             return $http.post(serviceBase + 'postCustomer', customer).then(function (results) {
+                customer.id = results.data.id;
+                return results.data;
+            });
+        };
+
+        factory.insertOrUpdate = function (customer) {
+            return $http.post(serviceBase + 'addOrEditCustomer', customer).then(function (results) {
                 customer.id = results.data.id;
                 return results.data;
             });

@@ -1,8 +1,9 @@
-var db = require('../accessDB')
-  , util = require('util');
+'use strict';
+
+var db = require('../accessDB'),
+    util = require('util');
 
 // GET
-
 exports.customer = function (req, res) {
     console.log('*** customer');
 
@@ -42,6 +43,46 @@ exports.editCustomer = function (req, res) {
         } else {
             console.log('*** editCustomer ok');
             res.json({ 'status': true });
+        }
+    });
+};
+
+var getCustomerByFbId = function (fbId, callback) {
+    db.getCustomerByFbId(fbId, function (err, customer) {
+        if (err) {
+            console.log('*** getCustomerByFbId err');
+            callback(true, null);
+        } else {
+            console.log('*** getCustomerByFbId ok');
+            callback(null, customer);
+        }
+    });
+};
+
+exports.addOrEditCustomer = function (req, res) {
+    console.log('*** addOrEditCustomer');
+
+    getCustomerByFbId(req.body.fbId, function (err, customer) {
+        if (err) {
+            db.insertCustomer(req.body, function (err) {
+                if (err) {
+                    console.log('*** addCustomer err');
+                    res.json(false);
+                } else {
+                    console.log('*** addCustomer ok');
+                    res.json(req.body);
+                }
+            });
+        } else {
+            db.editCustomer(customer.id, req.body, function (err) {
+                if (err) {
+                    console.log('*** editCustomer err' + util.inspect(err));
+                    res.json({ 'status': false });
+                } else {
+                    console.log('*** editCustomer ok');
+                    res.json({ 'status': true });
+                }
+            });
         }
     });
 };
@@ -197,9 +238,9 @@ exports.checkFbCustomers = function (req, res) {
 
 exports.login = function (req, res) {
     console.log('*** login');
-    var userLogin = req.body.userLogin;
-    var userName = userLogin.userName;
-    var password = userLogin.password;
+    var userLogin = req.body.userLogin,
+        userName = userLogin.userName,
+        password = userLogin.password;
 
     //Simulate login
     res.json({ status: true });
@@ -211,8 +252,3 @@ exports.logout = function (req, res) {
     //Simulate logout
     res.json({ status: true });
 };
-
-
-
-
-

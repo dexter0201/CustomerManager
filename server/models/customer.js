@@ -42,33 +42,32 @@ var CustomerTypeScheme = new Schema({
 });
 
 var CustomerSchema = new Schema({
-    firstName : {
+    firstName: {
         type : String,
         required: true,
         trim: true
     },
-    lastName : {
+    lastName: {
         type : String,
         required: true,
         trim: true
     },
-    email : {
+    email: {
         type : String,
         trim: true
     },
-    address : {
+    address: {
         type : String,
-        required: true,
         trim: true
     },
     avatar: {
         type: String,
         trim: true
     },
-    gender : {
+    gender: {
         type : String,
     },
-    id : {
+    id: {
         type : Number,
         required: true,
         unique: true
@@ -78,12 +77,11 @@ var CustomerSchema = new Schema({
         required: true,
         default: true
     },
-    orderCount : {
+    orderCount: {
         type : Number,
     },
     phone: {
-        type: String,
-        required: true
+        type: String
     },
     facebook: {
         id: {
@@ -96,9 +94,13 @@ var CustomerSchema = new Schema({
             required: true,
             trim: true
         },
-        profileLink: {
+        link: {
             type: String,
             required: true,
+            trim: true
+        },
+        avatar: {
+            type: String,
             trim: true
         }
     },
