@@ -52,10 +52,7 @@
                         Địa chỉ:
                     </div>
                     <div class="col-md-10">
-                        <input type="text" name="address" class="form-control" data-ng-model="vm.customer.address" required />
-                        <span class="errorMessage" ng-show="editForm.address.$touched && editForm.address.$invalid">
-                            Vui lòng nhập địa chỉ
-                        </span>
+                        <input type="text" name="address" class="form-control" data-ng-model="vm.customer.address" />
                     </div>
                 </div>
                 <br />
@@ -142,6 +139,17 @@
                         <span class="errorMessage" ng-show="editForm.email.$touched && editForm.email.$error.unique">
                             Email đã được sử dụng
                         </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Thông tin liên quan:
+                    </div>
+                    <div class="col-md-10">
+                        <textarea readonly="true" class="form-control">
+                            {{vm.customer.facebook.relateInfo}}
+                        </textarea>
                     </div>
                 </div>
                 <br />

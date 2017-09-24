@@ -21,8 +21,9 @@ define(['app'], function (app) {
                     last_name: null,
                     userProfile: null,
                     avatar: null,
-                    hasPhone: false,
-                    hasAddress: false
+                    phone: null,
+                    address: null,
+                    relateInfo: null
                 };
                 this.isCollapsed = true;
             }
@@ -138,8 +139,9 @@ define(['app'], function (app) {
                             });
 
                             if (comment) {
-                                comment.user.hasPhone = !!rc.phone;
-                                comment.user.hasAddress = !!rc.address;
+                                comment.user.phone = rc.phone;
+                                comment.user.address = rc.address;
+                                comment.relateInfo = rc.facebook.relateInfo;
                             }
                         }
                     });
@@ -201,8 +203,14 @@ define(['app'], function (app) {
                             vm.totalComments.fb = res.summary.total_count;
                             vm.totalComments.actual += res.data.length;
 
+                            // TODO: Remove
+                            //res.paging.next = false;
                             if (res.paging.next) {
                                 getAllNextComments(res.paging.next);
+                            } else {
+                                checkRegistered(vm.comments.map(function (c) {
+                                    return c.user.UID;
+                                }));
                             }
                         }
                     });
@@ -223,8 +231,7 @@ define(['app'], function (app) {
                 }
             };
 
-            vm.createCustomer = function (customer) {
-                console.log(customer);
+            vm.createOrEditCustomer = function (customer) {
                 modalService.show({
                     templateUrl: 'public/app/customersApp/views/customers/partials/customerModal.html',
                     controller: 'CustomerModalController as vm',

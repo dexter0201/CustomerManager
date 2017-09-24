@@ -101,21 +101,22 @@
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
 
-                                    <a ng-if="!comment.user.hasPhone && !comment.user.hasAddress"
-                                        ng-click="vm.createCustomer(comment.user)"
+                                    <a ng-if="!comment.user.phone && !comment.user.address"
+                                        ng-click="vm.createOrEditCustomer(comment.user)"
                                         class="pull-right"
                                         href="">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </a>
 
-                                    <a ng-if="(!comment.user.hasPhone && comment.user.hasAddress) || (!comment.user.hasAddress && comment.user.hasPhone)"
+                                    <a ng-if="(!comment.user.phone && comment.user.address) || (!comment.user.address && comment.user.phone)"
                                         class="pull-right"
+                                        ng-click="vm.createOrEditCustomer(comment.user)"
                                         href="">
                                         <span class="glyphicon glyphicon-edit"></span>
                                     </a>
 
                                     <a class="pull-right"
-                                       ng-if="comment.user.hasPhone && comment.user.hasAddress">
+                                       ng-if="comment.user.phone && comment.user.address">
                                         <span class="glyphicon glyphicon-ok"></span>
                                     </a>
 
