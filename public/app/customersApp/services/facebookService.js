@@ -11,6 +11,26 @@ define(['app'], function (app) {
                 },
                 userFields = 'link,name,picture,first_name,last_name,email,gender';
 
+            factory.video.getUploaded = function () {
+                var defer = $q.defer();
+
+                window.FB.api(
+                    '/me/videos/uploaded',
+                    {
+                        fields: 'id,description,created_time'
+                    },
+                    function (res) {
+                        if (res && res.data) {
+                            defer.resolve(res.data);
+                        } else {
+                            defer.reject();
+                        }
+                    }
+                );
+
+                return defer.promise;
+            };
+
             factory.video.getCommentsById = function (id, token) {
                 var defer = $q.defer();
 
@@ -41,7 +61,11 @@ define(['app'], function (app) {
                 });
             };
 
-            factory.saveAsDaisyCustomer = function (fbCustomer, phone, address) {
+            /**
+             *
+             * RelateInfo will be removed. This is just a temp data
+             **/
+            factory.saveAsDaisyCustomer = function (fbCustomer, phone, address, relateInfo) {
                 dataService.insertOrUpdate({
                     firstName: fbCustomer.first_name,
                     lastName: fbCustomer.last_name,
@@ -53,7 +77,8 @@ define(['app'], function (app) {
                     fbId: fbCustomer.id,
                     fbName: fbCustomer.name,
                     fbLink: fbCustomer.link,
-                    fbAvatar: fbCustomer.picture && fbCustomer.picture.data ? fbCustomer.picture.data.url : ''
+                    fbAvatar: fbCustomer.picture && fbCustomer.picture.data ? fbCustomer.picture.data.url : '',
+                    fbRelateInfo: relateInfo
                 });
             };
 

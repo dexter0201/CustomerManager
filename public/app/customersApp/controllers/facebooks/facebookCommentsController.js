@@ -26,7 +26,7 @@ define(['app'], function (app) {
                 this.isCollapsed = true;
             }
 
-            function initValues() {
+            function resetValues() {
                 vm.searchTerm = null;
                 vm.totalComments = {
                     fb: 0,
@@ -38,10 +38,12 @@ define(['app'], function (app) {
             }
 
             function getVideosList() {
-                window.FB.api('/me/videos/uploaded', function (res) {
-                    if (res) {
-                        vm.videos = res.data || [];
-                    }
+                facebookService.video.getUploaded().then(function (videos) {
+                    vm.videos = videos;
+                    vm.videos = vm.videos.map(function (c) {
+                        c.created_time = new Date(c.created_time);
+                        return c;
+                    });
                 });
             }
 
@@ -50,12 +52,13 @@ define(['app'], function (app) {
                     addressPosition = -1,
                     phoneNumber,
                     address,
+                    relateInfo,
                     isAvailableToSave = (function () {
                         if (comment.message) {
                             phonePosition = comment.message.indexOf('0');
                             addressPosition = comment.message.indexOf('//');
 
-                            if (phonePosition === 0 || (phonePosition > 0 && comment.message[phonePosition - 1] === ' ')) {
+                            if (phonePosition === 0 || (phonePosition > 0 && (comment.message[phonePosition - 1] === ' ' || comment.message[phonePosition - 1] === '.'))) {
                                 return true;
                             }
 
@@ -68,19 +71,27 @@ define(['app'], function (app) {
                     }());
 
                 if (isAvailableToSave) {
-                    if (comment.message.indexOf(' ', phonePosition) === -1) {
-                        phoneNumber = comment.message.slice(phonePosition);
-                    } else {
+                    if (comment.message.indexOf('.', phonePosition) > -1) {
+                        phoneNumber = comment.message.slice(phonePosition, comment.message.indexOf('.', phonePosition));
+                    } else if (comment.message.indexOf(' ') > -1) {
                         phoneNumber = comment.message.slice(phonePosition, comment.message.indexOf(' ', phonePosition));
+                    } else {
+                        phoneNumber = comment.message.slice(phonePosition);
                     }
 
+                    phoneNumber = phoneNumber.length < 10 ? undefined : phoneNumber;
                     address = comment.message.slice(addressPosition, comment.message.indexOf(' ', addressPosition));
-                    facebookService.saveAsDaisyCustomer(comment.from, phoneNumber, address);
+
+                    if (!phoneNumber && !address) {
+                        return;
+                    }
+
+                    relateInfo = comment.message;
+                    facebookService.saveAsDaisyCustomer(comment.from, phoneNumber, address, relateInfo);
                 }
             }
 
             function init() {
-                initValues();
                 getVideosList();
             }
 
@@ -154,7 +165,7 @@ define(['app'], function (app) {
                     return;
                 }
 
-                initValues();
+                resetValues();
 
                 vm.currentVideoId = id;
 

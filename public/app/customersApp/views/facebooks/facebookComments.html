@@ -60,11 +60,11 @@
                     <!-- SIDEBAR MENU -->
                     <div class="profile-usermenu">
                         <ul class="nav">
-                            <li ng-repeat="video in vm.videos | limitTo : 4"
+                            <li ng-repeat="video in vm.videos"
                                 ng-class="{'active': video.id === vm.currentVideoId}">
                                 <a href="" ng-click="vm.getAllCommentsByPost(video.id)">
                                     <i class="glyphicon glyphicon-facetime-video"></i>
-                                    {{ video.description | limitTo: 40}}
+                                    {{ video.created_time | date:'dd-MM-yyyy HH:mm:ss'}}
                                 </a>
                             </li>
                         </ul>

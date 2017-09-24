@@ -110,16 +110,13 @@ module.exports = {
                     'type': type
                 }, {
                     '_id': false,
-                    'firstName': true,
-                    'lastName': true,
-                    // 'city': true,
                     'orderCount': true,
                     'gender': true,
                     'id': true,
                     'address': true,
                     'phone': true,
                     'type': true,
-                    'avatar': true
+                    'facebook': true
                 })
                     .skip(skip)
                     .limit(top)
@@ -181,6 +178,7 @@ module.exports = {
             customer.facebook.name = req_body.fbName;
             customer.facebook.link = req_body.fbLink;
             customer.facebook.avatar = req_body.fbAvatar;
+            customer.facebook.relateInfo = req_body.fbRelateInfo;
 
             customer.save(function (err, customer) {
                 if (err) { console.log('*** new customer save err: ' + err); return callback(err); }
@@ -225,6 +223,7 @@ module.exports = {
                     customer.facebook.name = req_body.fbName || customer.facebook.id;
                     customer.facebook.link = req_body.fbLink || customer.facebook.link;
                     customer.facebook.avatar = req_body.fbAvatar || customer.facebook.avatar;
+                    customer.facebook.relateInfo = req_body.fbRelateInfo || customer.facebook.relateInfo;
 
                     customer.save(function (err) {
                         if (err) { console.log('*** accessDB.editCustomer err: ' + err); return callback(err); }

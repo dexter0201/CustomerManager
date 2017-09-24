@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
@@ -6,11 +8,11 @@ var SettingsSchema = new Schema({
         type : String,
         required: true,
         trim: true,
-        default: 'customers'
+        'default': 'customers'
     },
     nextSeqNumber: {
         type: Number,
-        default: 1
+        'default': 1
     }
 });
 
@@ -21,10 +23,10 @@ var OrderSchema = new Schema({
         trim: true
     },
     price : {
-        type : Number,
+        type : Number
     },
     quantity : {
-        type : Number,
+        type : Number
     }
 });
 
@@ -65,7 +67,7 @@ var CustomerSchema = new Schema({
         trim: true
     },
     gender: {
-        type : String,
+        type : String
     },
     id: {
         type : Number,
@@ -75,10 +77,10 @@ var CustomerSchema = new Schema({
     enable: {
         type: Boolean,
         required: true,
-        default: true
+        'default': true
     },
     orderCount: {
-        type : Number,
+        type : Number
     },
     phone: {
         type: String
@@ -100,6 +102,10 @@ var CustomerSchema = new Schema({
             trim: true
         },
         avatar: {
+            type: String,
+            trim: true
+        },
+        relateInfo: {
             type: String,
             trim: true
         }

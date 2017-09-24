@@ -83,14 +83,13 @@
                                 <tr data-ng-repeat="customer in vm.filteredCustomers | orderBy:vm.orderby:vm.reverse" class="repeat-animation">
                                     <td>
                                         <a href="#/customeredit/{{customer.id}}">
-                                            <img data-ng-src="public/content/images/{{customer.gender | lowercase}}.png" class="cardImage" alt="Customer Image" ng-if="!customer.avatar"/>
-                                            <img data-ng-src="{{customer.avatar}}" class="cardImage" alt="Customer Image" ng-if="customer.avatar" />
+                                            <img data-ng-src="{{customer.facebook.avatar}}" class="cardImage" alt="Customer Image" />
                                         </a>
                                     </td>
 
                                     <td>
                                         <a href="#/customeredit/{{customer.id}}">
-                                            {{customer.firstName + ' ' + customer.lastName}}
+                                            {{customer.facebook.name}}
                                         </a>
                                     </td>
                                     <td>{{customer.address}}</td>
