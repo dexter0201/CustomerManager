@@ -48,7 +48,7 @@ var baseUrl = '/api/dataservice/',
     fbPrefix = 'fb/'
 
 app.get(baseUrl + 'Customers', api.customers);
-//app.get(baseUrl + fbPrefix + 'CheckCustomers', api.checkFbCustomers);
+app.post(baseUrl + fbPrefix + 'CheckCustomers', api.checkFbCustomers);
 app.get(baseUrl + 'Customer/:id', api.customer);
 app.get(baseUrl + 'CustomersSummary', api.customersSummary);
 app.get(baseUrl + 'CustomersSummaryByType', api.customersSummaryByType);

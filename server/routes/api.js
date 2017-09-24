@@ -220,9 +220,8 @@ exports.checkUnique = function (req, res) {
 
 exports.checkFbCustomers = function (req, res) {
     console.log('*** checkFbCustomers');
-    var fbIds = req.query.fbIds ? req.query.fbIds.split(',') : [];
 
-    db.checkCustomersByFbIds(fbIds, function (err, customers) {
+    db.checkCustomersByFbIds(req.body.fbIds, function (err, customers) {
         if (err) {
             console.log('*** checkFbCustomers err');
             res.json({

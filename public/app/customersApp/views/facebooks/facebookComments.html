@@ -101,14 +101,21 @@
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
 
-                                    <a ng-if="!comment.user.registered"
+                                    <a ng-if="!comment.user.hasPhone && !comment.user.hasAddress"
                                         ng-click="vm.createCustomer(comment.user)"
                                         class="pull-right"
                                         href="">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </a>
+
+                                    <a ng-if="(!comment.user.hasPhone && comment.user.hasAddress) || (!comment.user.hasAddress && comment.user.hasPhone)"
+                                        class="pull-right"
+                                        href="">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+
                                     <a class="pull-right"
-                                       ng-if="comment.user.registered">
+                                       ng-if="comment.user.hasPhone && comment.user.hasAddress">
                                         <span class="glyphicon glyphicon-ok"></span>
                                     </a>
 

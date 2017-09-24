@@ -262,7 +262,7 @@ module.exports = {
     },
 
     checkCustomersByFbIds: function (fbIds, callback) {
-        console.log('*** accessDB.checkCustomersByFbIds');
+        console.log('*** accessDB.checkCustomersByFbIds', typeof fbIds);
         Customer.find({
             'facebook.id': {
                 $in: fbIds

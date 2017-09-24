@@ -21,7 +21,8 @@ define(['app'], function (app) {
                     last_name: null,
                     userProfile: null,
                     avatar: null,
-                    registered: false
+                    hasPhone: false,
+                    hasAddress: false
                 };
                 this.isCollapsed = true;
             }
@@ -80,7 +81,10 @@ define(['app'], function (app) {
                     }
 
                     phoneNumber = phoneNumber.length < 10 ? undefined : phoneNumber;
-                    address = comment.message.slice(addressPosition, comment.message.indexOf(' ', addressPosition));
+
+                    if (addressPosition > -1) {
+                        address = comment.message.slice(2);
+                    }
 
                     if (!phoneNumber && !address) {
                         return;
@@ -125,6 +129,23 @@ define(['app'], function (app) {
                 });
             }
 
+            function checkRegistered(fbIds) {
+                dataService.checkFacebookCustomers(fbIds).then(function (customers) {
+                    customers.forEach(function (rc) {
+                        if (rc.facebook && rc.facebook.id) {
+                            var comment = vm.comments.find(function (c) {
+                                return c.user.UID === rc.facebook.id;
+                            });
+
+                            if (comment) {
+                                comment.user.hasPhone = !!rc.phone;
+                                comment.user.hasAddress = !!rc.address;
+                            }
+                        }
+                    });
+                });
+            }
+
             function getAllNextComments(nextCursor) {
                 facebookService.video.getNextComments(nextCursor)
                     .then(function (res) {
@@ -134,6 +155,10 @@ define(['app'], function (app) {
 
                             if (res.paging.next) {
                                 getAllNextComments.call(null, res.paging.next);
+                            } else {
+                                checkRegistered(vm.comments.map(function (c) {
+                                    return c.user.UID;
+                                }));
                             }
                         }
                     });
