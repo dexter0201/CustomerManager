@@ -116,7 +116,9 @@
                                     </a>
 
                                     <a class="pull-right"
-                                       ng-if="comment.user.phone && comment.user.address">
+                                       ng-if="comment.user.phone && comment.user.address"
+                                       ng-click="vm.createOrEditCustomer(comment.user)"
+                                       href="">
                                         <span class="glyphicon glyphicon-ok"></span>
                                     </a>
 
