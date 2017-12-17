@@ -5,4 +5,4 @@ packages
 *.mdf
 *.ldf
 node_modules
-
+.vs

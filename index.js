@@ -8,7 +8,8 @@ var express = require('express'),
     api = require('./server/routes/api'),
     DB = require('./server/accessDB'),
     protectJSON = require('./server/lib/protectJSON'),
-    app = express();
+    app = express(),
+    port = process.env.PORT || 3000;
 
 app.set('views', __dirname + '/server/views');
 app.set('view engine', 'jade');
@@ -37,7 +38,7 @@ process.on('uncaughtException', function (err) {
 });
 
 //Local Connection
-var conn = 'mongodb://localhost/customermanager';
+var conn = 'mongodb://daisyadmin:123456@ds055885.mlab.com:55885/daisyshop';
 var db = new DB.startup(conn);
 
 // Routes
@@ -74,6 +75,6 @@ app.get('*', routes.index);
 
 // Start server
 
-app.listen(3000, function () {
+app.listen(port, function () {
     console.log("CustMgr Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
