@@ -33,12 +33,12 @@ define(['customersApp/services/routeResolver'], function () {
                 //The controllers for orders live in controllers/orders and the views are in views/orders
                 //The second parameter allows for putting related controllers/views into subfolders to better organize large projects
                 //Thanks to Ton Yeung for the idea and contribution
-                .when('/customers', route.resolve('Customers', 'customers/', 'vm'))
+                .when('/customers', route.resolve('Customers', 'customers/', 'vm', true))
                 .when('/customerorders/:customerId', route.resolve('CustomerOrders', 'customers/', 'vm', true))
                 .when('/customeredit/:customerId', route.resolve('CustomerEdit', 'customers/', 'vm', true))
-                .when('/orders', route.resolve('Orders', 'orders/', 'vm'))
+                .when('/orders', route.resolve('Orders', 'orders/', 'vm', true))
                 .when('/facebook', route.resolve('FacebookComments', 'facebooks/', 'vm', true))
-                .when('/about', route.resolve('About', '', 'vm'))
+                .when('/about', route.resolve('About', '', 'vm', true))
                 .when('/login/:redirect*?', route.resolve('Login', '', 'vm'))
                 .otherwise({ redirectTo: '/customers' });
 
