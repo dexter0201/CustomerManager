@@ -62,7 +62,7 @@
                         <ul class="nav">
                             <li ng-repeat="video in vm.videos"
                                 ng-class="{'active': video.id === vm.currentVideoId}">
-                                <a href="" ng-click="vm.getAllCommentsByPost(video.id)">
+                                <a href="" ng-click="vm.getAllCommentsByPost(video)">
                                     <i class="glyphicon glyphicon-facetime-video"></i>
                                     {{ video.created_time | date:'dd-MM-yyyy HH:mm:ss'}}
                                 </a>
@@ -86,6 +86,7 @@
                                         <span ng-bind-html="comment.messages[0].text | highlightFilter:searchTerm">
                                             {{comment.messages[0].text}}
                                         </span>
+                                        <span class="pull-right">{{comment.messages[0].commenttedTime}}</span>
                                     </p>
                                 </div>
                                 <div collapse="comment.isCollapsed" ng-if="comment.messages.length > 1">
@@ -93,6 +94,7 @@
                                         ng-repeat="msg in comment.messages.slice(1)">
                                         <p>
                                             <span ng-bind-html="msg.text | highlightFilter:searchTerm">{{msg.text}}</span>
+                                            <span class="pull-right">{{msg.commenttedTime}}</span>
                                         </p>
                                     </div>
                                 </div>

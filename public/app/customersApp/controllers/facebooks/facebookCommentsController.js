@@ -8,7 +8,8 @@ define(['app'], function (app) {
             $timeout, authService, dataService, modalService, facebookService) {
 
             var vm = this,
-                paging = false;
+                paging = false,
+                delayCommentTime = 7000;
 
             vm.currentUser = authService.user;
 
@@ -105,7 +106,17 @@ define(['app'], function (app) {
                     var existedCommentByUsers = vm.comments.filter(function (item) {
                         return item.user.UID === c.from.id;
                     }),
-                        comment;
+                        comment,
+                        h, hh, m, mm, s, ss, diff;
+
+                    diff = new Date(c.created_time) - vm.currentVideoCreated + delayCommentTime;
+
+                    s = Math.floor((diff / 1000) % 60);
+                    m = Math.floor((diff / (1000*60)) % 60);
+                    h = Math.floor((diff / (1000*60*60)) % 24);
+                    ss = s < 10 ? '0' + s : s;
+                    mm = m < 10 ? '0' + m : m;
+                    hh = h < 10 ? '0' + h : h;
 
                     if (existedCommentByUsers.length === 0) {
                         comment = new Comment();
@@ -116,13 +127,15 @@ define(['app'], function (app) {
                         comment.user.last_name = c.from.last_name;
                         comment.user.avatar = c.from.picture.data ? c.from.picture.data.url : '';
                         comment.messages = [{
-                            text: c.message || '(icon)'
+                            text: c.message || '(icon)',
+                            commenttedTime: [hh, mm, ss].join(':')
                         }];
 
                         vm.comments.push(comment);
                     } else {
                         existedCommentByUsers[0].messages.push({
-                            text: c.message || '(icon)'
+                            text: c.message || '(icon)',
+                            commenttedTime: [hh, mm, ss].join(':')
                         });
                     }
 
@@ -166,34 +179,18 @@ define(['app'], function (app) {
                     });
             }
 
-            /*function checkRegistered(fbIds) {
-                dataService.checkCustomers(fbIds).then(function (res) {
-                    if (res && Array.isArray(res)) {
-                        res.forEach(function (r) {
-                            if (r && r.facebook && r.facebook.id) {
-                                var comment = vm.comments.find(function (c) {
-                                    return c.user.id === r.facebook.id;
-                                });
-
-                                if (comment) {
-                                    comment.user.registered = true;
-                                }
-                            }
-                        });
-                    }
-                });
-            }*/
-
             init();
 
             // =============== PUBLIC METHOD ====================
-            vm.getAllCommentsByPost = function (id) {
-                if (!id) {
+            vm.getAllCommentsByPost = function (video) {
+                if (!video.id) {
                     return;
                 }
 
-                resetValues();
+                var id = video.id;
 
+                resetValues();
+                vm.currentVideoCreated = video.created_time;
                 vm.currentVideoId = id;
 
                 facebookService.video.getCommentsById(vm.currentUser.id + '_' + id)
