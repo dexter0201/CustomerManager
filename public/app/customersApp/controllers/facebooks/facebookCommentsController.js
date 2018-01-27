@@ -248,7 +248,7 @@ define(['app'], function (app) {
             vm.sendMessage = function (customer) {
                 window.FB.ui({
                     method: 'send',
-                    link: 'https://www.facebook.com/DaisyFashionShopp',
+                    link: 'https://www.facebook.com/chaule.trang',
                     to: customer.UID
                 });
             };
