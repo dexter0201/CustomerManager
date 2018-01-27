@@ -38,7 +38,7 @@ process.on('uncaughtException', function (err) {
 });
 
 //Local Connection
-var conn = 'mongodb://daisyadmin:123456@ds055885.mlab.com:55885/daisyshop';
+var conn = 'mongodb://changchang:Admin123@ds117158.mlab.com:17158/changchang';
 var db = new DB.startup(conn);
 
 // Routes
