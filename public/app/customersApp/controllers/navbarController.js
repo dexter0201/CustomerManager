@@ -5,7 +5,7 @@ define(['app'], function (app) {
     var injectParams = ['$scope', '$location', 'config', 'authService'],
         NavbarController = function ($scope, $location, config, authService) {
             var vm = this,
-                appTitle = 'Daisy Fashion';
+                appTitle = 'Checkinby Dashboard';
 
             vm.isCollapsed = false;
             vm.appTitle = (config.useBreeze) ? appTitle + ' Breeze' : appTitle;
