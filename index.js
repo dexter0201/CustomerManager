@@ -37,9 +37,9 @@ process.on('uncaughtException', function (err) {
     if (err) console.log(err, err.stack);
 });
 
-//Local Connection
-var conn = 'mongodb://changchang:Admin123@ds117158.mlab.com:17158/changchang';
-var db = new DB.startup(conn);
+// //Local Connection
+// var conn = 'mongodb://dexter:Admin123@ds117158.mlab.com:17158/dexter';
+// var db = new DB.startup(conn);
 
 // Routes
 app.get('/', routes.index);
@@ -48,23 +48,23 @@ app.get('/', routes.index);
 var baseUrl = '/api/dataservice/',
     fbPrefix = 'fb/'
 
-app.get(baseUrl + 'Customers', api.customers);
-app.post(baseUrl + fbPrefix + 'CheckCustomers', api.checkFbCustomers);
-app.get(baseUrl + 'Customer/:id', api.customer);
-app.get(baseUrl + 'CustomersSummary', api.customersSummary);
-app.get(baseUrl + 'CustomersSummaryByType', api.customersSummaryByType);
-app.get(baseUrl + 'CustomerById/:id', api.customer);
+// app.get(baseUrl + 'Customers', api.customers);
+// app.post(baseUrl + fbPrefix + 'CheckCustomers', api.checkFbCustomers);
+// app.get(baseUrl + 'Customer/:id', api.customer);
+// app.get(baseUrl + 'CustomersSummary', api.customersSummary);
+// app.get(baseUrl + 'CustomersSummaryByType', api.customersSummaryByType);
+// app.get(baseUrl + 'CustomerById/:id', api.customer);
 
-app.post(baseUrl + 'PostCustomer', api.addCustomer);
-app.post(baseUrl + 'AddOrEditCustomer', api.addOrEditCustomer);
-app.put(baseUrl + 'PutCustomer/:id', api.editCustomer);
-app.delete(baseUrl + 'DeleteCustomer/:id', api.deleteCustomer);
+// app.post(baseUrl + 'PostCustomer', api.addCustomer);
+// app.post(baseUrl + 'AddOrEditCustomer', api.addOrEditCustomer);
+// app.put(baseUrl + 'PutCustomer/:id', api.editCustomer);
+// app.delete(baseUrl + 'DeleteCustomer/:id', api.deleteCustomer);
 
-app.get(baseUrl + 'States', api.states);
-app.get(baseUrl + 'Cities', api.cities);
+// app.get(baseUrl + 'States', api.states);
+// app.get(baseUrl + 'Cities', api.cities);
 
 
-app.get(baseUrl + 'CheckUnique/:id', api.checkUnique);
+// app.get(baseUrl + 'CheckUnique/:id', api.checkUnique);
 
 app.post(baseUrl + 'Login', api.login);
 app.post(baseUrl + 'Logout', api.logout);

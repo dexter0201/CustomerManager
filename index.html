@@ -1,98 +1,858 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Checkinby - Quản lý khách hàng</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="public/content/bootstrap.css" rel="stylesheet" />
-    <link href="public/content/animations.css" rel="stylesheet" />
-    <link href="public/content/styles.css" rel="stylesheet" />
+
+<!-- Simple Page Needs
+================================================== -->
+<title>Dexter Nguyen | Developer</title>
+<meta charset="UTF-8">
+<meta name="description" content="Dexter Lich Nguyen - Resume">
+<meta name="keywords" content="dexter, dexternguyen, dexter nguyen">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Favicon
+================================================== -->
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="css/bootstrap.css"/>
+<link rel="stylesheet" href="css/reset.css"/>
+<link rel="stylesheet" href="cubeportfolio/css/cubeportfolio.min.css"/>
+<link rel="stylesheet" href="css/owl.theme.css"/>
+<link rel="stylesheet" href="css/owl.carousel.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/colors/green2.css" id="color"/>
+<!-- <link rel="stylesheet" href="css/colors/yellow.css" id="color"/> -->
+
+
+<!-- Google Web fonts
+================================================== -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
+
+<!-- Font Icons
+================================================== -->
+<link rel="stylesheet" href="icon-fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="icon-fonts/web-design/flaticon.css" />
+
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
 </head>
-<body data-ng-cloak>
+<body>
+ <!-- Preloading -->
+<div id="preloader">
+    <div class="spinner">
+    </div>
+</div>
 
-    <header class="navbar navbar-inner navbar-fixed-top" data-ng-controller="NavbarController as vm">
-        <nav class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-ng-click="vm.isCollapsed = !vm.isCollapsed">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#/">
-                    <img src="public/content/images/people.png" alt="logo">
-                    <span class="appTitle">{{ vm.appTitle }}</span>
-                </a>
-            </div>
-            <div class="nav-container" data-collapse="vm.isCollapsed">
+<!-- Wrapper -->
+<div class="wrapper top_60 container">
+<div class="row">
 
-                <!-- With menu-highlighter directive -->
-                <ul class="nav navbar-nav nav-pills navBarPadding"
-                    data-menu-highlighter data-highlight-class-name="active">
-                    <li><a href="#/facebook">Facebook</a></li>
-                    <!-- <li><a href="#/customers">Khách hàng</a></li> -->
-<!--                    <li><a href="#/orders">Đơn hàng</a></li>-->
-                    <!-- <li><a href="#/about">About</a></li> -->
-                    <li id="nav-login" data-ng-click="vm.loginOrOut()">
-                        <!-- href not used but needed to compare against path in menu-highlighter -->
-                        <a data-href="#/login">{{ vm.loginLogoutText }}</a>
-                    </li>
-                </ul>
+<!-- Profile Section
+================================================== -->
+<div class="col-lg-3 col-md-4">
+    <div class="profile">
+        <div class="profile-name">
+            <span class="name">Dexter Lich Nguyen</span><br>
+            <span class="job">Developer</span>
+        </div>
+        <figure class="profile-image">
+            <img src="images/dexter-profile.jpg" alt="">
+        </figure>
+        <ul class="profile-information">
+            <li></li>
+            <li><p><span>Name:</span> Dexter Lich Nguyen</p></li>
+            <li><p><span>Birthday:</span> 02 January 1993</p></li>
+            <li><p><span>Job:</span> Developer</p></li>
+            <li><p><span>E:</span> dexternguyen.jobs@gmail.com</p></li>
+            <li><p><span>Skype:</span> kalel0504</p></li>
+        </ul>
+        <div class="col-md-12">
+            <button class="site-btn icon">Download Cv <i class="fa fa-download" aria-hidden="true"></i></button>
+        </div>
+    </div>
+</div>
 
-                <!-- Without menu-highlighter directive -->
-                <!--<ul class="nav navbar-nav nav-pills navBarPadding">
-                    <li data-ng-class="{'active':highlight('/customers')}"><a href="#/customers">Customers</a></li>
-                    <li data-ng-class="{'active':highlight('/orders')}"><a href="#/orders">Orders</a></li>
-                    <li data-ng-class="{'active':highlight('/about')}"><a href="#/about">About</a></li>
-                    <li data-ng-class="{'active':highlight('/login')}" id="nav-login"
-                        data-ng-click="loginOrOut()">
-                        <a>{{ loginLogoutText }}</a>
-                    </li>
-                </ul>-->
+<!-- Page Tab Container Div -->
+<div id="ajax-tab-container" class="col-lg-9 col-md-8 tab-container">
+
+<!-- Header
+================================================== -->
+<div class="row">
+    <header class="col-md-12">
+        <nav>
+            <div class="row">
+                <!-- navigation bar -->
+                <div class="col-md-8 col-sm-8 col-xs-4">
+                    <ul class="tabs">
+                        <li class="tab">
+                            <a class="home-btn" href="#home"><i class="fa fa-home" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="tab"><a href="#resume">RESUME</a></li>
+                        <li class="tab hide"><a href="#portfolio">PORTFOLIO</a></li>
+                        <li class="tab hide"><a href="#blog">BLOG</a></li>
+                        <li class="tab"><a href="#contact">CONTACT</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-8 dynamic">
+                    <a href="mailto:dexternguyen.jobs@gmail.com" class="pull-right site-btn icon hidden-xs">Hire Me <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                    <div class="hamburger pull-right hidden-lg hidden-md"><i class="fa fa-bars" aria-hidden="true"></i></div>
+                    <div class="hidden-md social-icons pull-right">
+                        <a class="fb" target="_blank" href="https://www.facebook.com/dexternguyen0201"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a class="gh" target="_blank" href="https://github.com/dexter0201"><i class="fa fa-github" aria-hidden="true"></i></a>
+                        <a class="gh" target="_blank" href="https://www.linkedin.com/in/dexternguyen0201/"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        <!-- <a class="ins" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a> -->
+                        <!-- <a class="dr" href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a> -->
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
 
-    <div class="slide-animation-container">
-        <div data-ng-view id="ng-view" class="slide-animation"></div>
-    </div>
+    <!-- Page Content
+    ================================================== -->
+    <div class="col-md-12">
+        <div id="content" class="panel-container">
 
-    <div id="footer">
-        <div class="navbar navbar-fixed-bottom">
-            <div class="navbar-inner footer">
-                <div class="container">
-                    <footer>
-                        <div class="row">
-                            <div class="col-md-12">
-                                Created by <a href="https://www.facebook.com/lich.nguyen.9237244" target="_blank">Dexter Lich Nguyen</a>
+            <!-- Home Page
+            ================================================== -->
+            <div id="home">
+                <!-- Text Section -->
+                <div class="row">
+                    <section class="about-me line col-md-12 padding_30 padbot_45">
+                    <div class="section-title"><span></span><h2>About Me</h2></div>
+                    <p class="top_30">
+                        I am an experienced E-commerce system, a web developer with 4+ years in the telco/media sector, working as IPTV Engineer. I have a Masters of Science degree in Information Systems and Computer Engineering and I am also a Certified Demandware (Salesforce Cloud Commerce).
+                        <br>
+                        <br>
+                        My main skills are the development of productivity-driven scripts/utilities; optimization/automation of processes and operations; software architecture; digital asset management and end-to-end (from delivery to ingest) workflow design. My applications are typically single-window utilities, built with a single purpose in mind. I do take care to ensure the UI in my utilities behave properly.
+                        <br>
+                        <br>
+                        I'm responsible and always punctual to deadlines. My goal is to make every client satisfied.
+                    </p>
+                </section>
+                </div>
+                <!-- My Services Section -->
+                <div class="row">
+                    <section class="services line graybg col-md-12 padding_50 padbot_50">
+                    <div class="section-title bottom_45"><span></span><h2>My Services</h2></div>
+                    <div class="row">
+                        <!-- a service -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="service">
+                                <div class="icon">
+                                    <i class="flaticon-html"></i>
+                                </div>
+                                <span class="title">Web Development</span>
+                                <p class="little-text">I have been working on web development for 4 years.</p>
                             </div>
                         </div>
-                    </footer>
+                        <!-- a service -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="service">
+                                <div class="icon">
+                                    <i class="flaticon-brainstorming"></i>
+                                </div>
+                                <span class="title">Solution Strategy</span>
+                                <p class="little-text">I will review and suggest solutions base on your business.</p>
+                            </div>
+                        </div>
+                        <!-- a service -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="service">
+                                <div class="icon">
+                                    <i class="flaticon-planning"></i>
+                                </div>
+                                <span class="title">Planning</span>
+                                <p class="little-text">I have been working on the Agile method for 4 years. I can plan your business.</p>
+                            </div>
+                        </div>
+                        <!-- a service -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="service">
+                                <div class="icon">
+                                    <i class="flaticon-schedule"></i>
+                                </div>
+                                <span class="title">Fast Delivery</span>
+                                <p class="little-text">I deliver your business as fast as possible.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                </div>
+                <!-- Skills Section -->
+                <div class="row">
+                    <section class="code-skills col-md-6 padding_60">
+                        <div class="section-title bottom_45"><span></span><h2>Code Skills</h2></div>
+                        <ul class="skill-list">
+                            <li>
+                                <h3>Javascript</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:100%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>Salesforce Cloud Commerce/Demandware</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:100%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>NodeJs</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:80%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>AngularJS</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:80%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>PHP</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:70%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>Java</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:60%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>.NET</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:60%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>HTML/HTML5</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:60%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>CSS/CSS3</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:30%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="design-skills col-md-6 padding_60 padbot_50">
+                        <div class="section-title bottom_45"><span></span><h2>Planning Skills</h2></div>
+                        <ul class="skill-list">
+                            <li>
+                                <h3>Scrum</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:100%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3>Other Agile Methods</h3>
+                                <div class="progress">
+                                    <div class="percentage" style="width:70%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
             </div>
-        </div>
+
+            <!-- Resume Page
+            ================================================== -->
+            <div id="resume">
+                <!-- Resume Section -->
+                <div class="row">
+                    <section class="education">
+                    <div class="section-title top_30"><span></span><h2>Resume</h2></div>
+                        <div class="row">
+                            <!-- Working History -->
+                            <div class="working-history col-md-6 padding_15 padbot_30">
+                                <ul class="timeline col-md-12 top_30">
+                                    <li><i class="fa fa-suitcase" aria-hidden="true"></i><h2 class="timeline-title">Working History</h2></li>
+                                    <!-- a work -->
+                                    <li><h3 class="line-title">Technical Leader - GrooveTechnology</h3>
+                                        <span>2016 - Present</span>
+                                        <p class="little-text">
+                                            Working on Salesforce Cloud Commerce (Demandware). GrooveTechnology official: https://www.groovetechnology.com/
+                                        </p>
+                                    </li>
+                                   <!-- a work -->
+                                    <li><h3 class="line-title">Technical Leader - Amblique</h3>
+                                        <span>2015 - Present</span>
+                                        <p class="little-text">
+                                            Working on Salesforce Cloud Commerce (Demandware). Amblique official: http://amblique.com/
+                                        </p>
+                                    </li>
+                                   <!-- a work -->
+                                    <li><h3 class="line-title">Developer - Studio 60</h3>
+                                        <span>2014 - 2015</span>
+                                        <p class="little-text">
+                                            Working on: AngularJs, dotNet Framework. Studio60 official: https://s60.co/
+                                        </p>
+                                    </li>
+                                    <!-- a work -->
+                                    <li><h3 class="line-title">Intern - Studio 60</h3>
+                                        <span>2014 - 2014</span>
+                                        <p class="little-text">
+                                            Working on PHP: PHP core, Laravel Framework, Magento I. Studio60 official: https://s60.co/
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Education History -->
+                            <div class="education-history col-md-6 padding_15 padbot_30">
+                                <ul class="timeline col-md-12 top_30">
+                                    <li><i class="fa fa-graduation-cap" aria-hidden="true"></i><h2 class="timeline-title">Education History</h2></li>
+                                    <!-- a work -->
+                                    <li><h3 class="line-title">University of Science Ho Chi Minh City</h3>
+                                        <span>2011 - 2015</span>
+                                        <p class="little-text">Strong knowledge foundation. Management Information Systems, General.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Clients Section -->
+                <div class="row">
+                    <section class="clients col-md-12 graybg padding_45 padbot_45">
+                        <div class="section-title bottom_30"><span></span><h2>Clients</h2></div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a href="https://www.thewarehouse.co.nz/" target="_blank">
+                                    <div class="client">
+                                        <img src="images/client-twl.png" alt="">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a href="http://www.2xu.com/au" target="_blank">
+                                    <div class="client">
+                                        <img src="images/client-2xu.png" alt="">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a href="http://www.drlewinns.com.au/" target="_blank">
+                                    <div class="client">
+                                        <img src="images/client-mcp.png" alt="">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a href="http://www.michaelhill.com.au/" target="_blank">
+                                    <div class="client">
+                                        <img src="images/client-mhj.svg" alt="">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Testimonials -->
+                <div class="row">
+                    <section class="testimonials bottom_30">
+                        <div class="section-title top_60 bottom_30"><span></span><h2>Testimonials</h2></div>
+                        <div class="owl-carousel row" data-items="3" data-autoplay="3000" data-pagination="true">
+                            <!-- a item -->
+                            <div class="col-md-12 item">
+                                <div class="comment">
+                                    <a href="https://www.linkedin.com/in/staci-scott-69058331/" target="_blank">
+                                        <div class="top-section">
+                                            <figure>
+                                                <img src="images/testimonial-staci.jpg" alt="">
+                                            </figure>
+                                            <div class="name-info">
+                                                <span class="name">Staci Scott</span>
+                                                <span class="job">Ecommerce Product Manager</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                    <p>Great Customer's Manager! She is an Ecommerce Product Manager at The Warehouse Group. thanks for everything.</p>
+                                </div>
+                            </div>
+                            <!-- a item -->
+                            <div class="col-md-12 item">
+                                <div class="comment">
+                                    <a href="https://www.linkedin.com/in/stephaniecbyrne1/" target="_blank">
+                                        <div class="top-section">
+                                            <figure>
+                                                <img src="images/testimonial-stephanie.jpg" alt="">
+                                            </figure>
+                                            <div class="name-info">
+                                                <span class="name">Stephanie Byrne</span>
+                                                <span class="job">Chief Client Officer</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                    <p>My Manager at Amblique. Thanks Stephanie</p>
+                                </div>
+                            </div>
+                            <!-- a item -->
+                            <div class="col-md-12 item">
+                                <div class="comment">
+                                    <a href="https://www.linkedin.com/in/mattdlong/" target="_blank">
+                                        <div class="top-section">
+                                            <figure>
+                                                <img src="images/testimonial-matt.jpg" alt="">
+                                            </figure>
+                                            <div class="name-info">
+                                                <span class="name">Matt Long</span>
+                                                <span class="job">Founder/CEO @ Groove Technology & Co-Founder/Director @ FactFour</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                    <p>Matt is a very good CEO. Thanks Matt.</p>
+                                </div>
+                            </div>
+                            <!-- a item -->
+                            <div class="col-md-12 item">
+                                <div class="comment">
+                                    <a href="https://www.linkedin.com/in/victor-tran-2533205a/" target="_blank">
+                                        <div class="top-section">
+                                            <figure>
+                                                <img src="images/testimonial-victor.jpg" alt="">
+                                            </figure>
+                                            <div class="name-info">
+                                                <span class="name">Victor Tran</span>
+                                                <span class="job">Delivery Manager</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                    <p>Great manager! He is a great manager as I known. Thanks for everything.</p>
+                                </div>
+                            </div>
+                            <!-- a item -->
+                            <div class="col-md-12 item">
+                                <div class="comment">
+                                    <a href="https://www.linkedin.com/in/arie-priebee/" target="_blank">
+                                        <div class="top-section">
+                                            <figure>
+                                                <img src="images/testimonial-arie.jpg" alt="">
+                                            </figure>
+                                            <div class="name-info">
+                                                <span class="name">Arie Priebee</span>
+                                                <span class="job">Digital Producer</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                    <p>Great producer. Thanks Arie.</p>
+                                </div>
+                            </div>
+                            <!-- a item -->
+                            <div class="col-md-12 item">
+                                <div class="comment">
+                                    <a href="https://www.linkedin.com/in/james-harrison-6b893330/" target="_blank">
+                                        <div class="top-section">
+                                            <figure>
+                                                <img src="images/testimonial-james.jpg" alt="">
+                                            </figure>
+                                            <div class="name-info">
+                                                <span class="name">James Harrison</span>
+                                                <span class="job">eCommerce Solution Architect</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                    <p>Great solution architect. Thanks James.</p>
+                                </div>
+                            </div>
+                            <!-- a item -->
+                            <div class="col-md-12 item">
+                                <div class="comment">
+                                    <a href="https://www.linkedin.com/in/jessica-parrish-836206105/" target="_blank">
+                                        <div class="top-section">
+                                            <figure>
+                                                <img src="images/testimonial-jesscia.jpg" alt="">
+                                            </figure>
+                                            <div class="name-info">
+                                                <span class="name">Jessica Parrish</span>
+                                                <span class="job">Account Manager</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                    <p>Great Account Manager! She was working with me as an account manager role at Amblique. Thanks for everything.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- Portfolio Page
+            ================================================== -->
+            <div id="portfolio" class="row bottom_45">
+                <section class="col-md-12">
+                    <div class="col-md-12 content-header bottom_15">
+                        <div class="section-title top_30 bottom_30"><span></span><h2>Portfolio</h2></div>
+                        <div id="filters-container">
+                            <!-- '*' means shows all item elements -->
+                            <div data-filter="*" class="cbp-filter-item cbp-filter-item-active">All</div>
+                            <div data-filter=".webdesign" class="cbp-filter-item">Web Design</div>
+                            <div data-filter=".motion" class="cbp-filter-item">Motion Graphic</div>
+                            <div data-filter=".illustration" class="cbp-filter-item">Illustration</div>
+                            <div data-filter=".photography" class="cbp-filter-item">Photography</div>
+                        </div>
+                    </div>
+                    <div id="grid-container" class="top_60">
+                        <!-- a work -->
+                        <div class="cbp-item webdesign">
+                            <a href="portfolio-detail/work-01.html" class=" cbp-singlePage">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-01.jpg" alt="" >
+                                    <figcaption>
+                                        <span class="title">Babel Admin</span><br/>
+                                        <span class="info">An admin template design.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a video work -->
+                        <div class="cbp-item cbp-lightbox motion">
+                            <a href="http://www.youtube.com/watch?v=bpOSxM0rNPM&amp;rel=0&amp;autoplay=1" class="cbp-lightbox">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-play" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-02.jpg" alt="" >
+                                    <figcaption>
+                                        <span class="title">George Motion</span><br/>
+                                        <span class="info">An motion graphic design.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a image work -->
+                        <div class="cbp-item cbp-lightbox photography">
+                            <a href="images/works/work-06.jpg" class="cbp-lightbox">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-06.jpg" alt="">
+                                    <figcaption>
+                                        <span class="title">Amazon Travel</span><br/>
+                                        <span class="info">Nature photography work.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a work -->
+                        <div class="cbp-item webdesign">
+                            <a href="portfolio-detail/work-02.html" class="cbp-singlePage">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-03.jpg" alt="">
+                                    <figcaption>
+                                        <span class="title">My Workspace</span><br/>
+                                        <span class="info">My current workspace design.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a video work -->
+                        <div class="cbp-item motion">
+                            <a href="https://vimeo.com/199074744" class="cbp-lightbox">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-play" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-04.jpg" alt="">
+                                    <figcaption>
+                                        <span class="title">Recoba Template</span><br/>
+                                        <span class="info">Html template design.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a work -->
+                        <div class="cbp-item webdesign">
+                            <a href="portfolio-detail/work-01.html" class="cbp-singlePage">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-05.jpg" alt="">
+                                    <figcaption>
+                                        <span class="title">Doddy App</span><br/>
+                                        <span class="info">Mobile app ui kit design.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a work -->
+                        <div class="cbp-item illustration">
+                            <a href="portfolio-detail/work-01.html" class="cbp-singlePage">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-07.jpg" alt="">
+                                    <figcaption>
+                                        <span class="title">Bob Stayler </span><br/>
+                                        <span class="info">Illustration characher design.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a work -->
+                        <div class="cbp-item illustration">
+                            <a href="portfolio-detail/work-01.html" class="cbp-singlePage">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-08.jpg" alt="">
+                                    <figcaption>
+                                        <span class="title">Exemag Wordpress Theme</span><br/>
+                                        <span class="info">Multiconcept Blog Theme.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- a work -->
+                        <div class="cbp-item illustration">
+                            <a href="portfolio-detail/work-01.html" class="cbp-singlePage">
+                                <figure>
+                                    <div class="icon">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                    </div>
+                                    <img src="images/works/work-09.jpg" alt="">
+                                    <figcaption>
+                                        <span class="title">Babel Admin Html Code</span><br/>
+                                        <span class="info">An admin template design.</span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- load more button -->
+                    <div id="js-loadMore-agency" class="cbp-l-loadMore-button top_30">
+                        <a href="load-more/portfolio.html" class="cbp-l-loadMore-link site-btn" rel="nofollow">
+                            <span class="cbp-l-loadMore-defaultText">Load More (<span class="cbp-l-loadMore-loadItems">3</span>)</span>
+                            <span class="cbp-l-loadMore-loadingText">Loading...</span>
+                            <span class="cbp-l-loadMore-noMoreLoading">No More Works</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Blog Page
+            ================================================== -->
+            <div id="blog">
+                <div class="row">
+                    <section class="blog col-md-12 bottom_30">
+                        <div class="col-md-12 content-header">
+                            <div class="section-title top_30 bottom_15"><span></span><h2>Blog Posts</h2></div>
+                        </div>
+                        <div id="grid-blog" class="row">
+                            <!-- a blog -->
+                            <div class="cbp-item">
+                                <a href="blog-posts/blog-1.html" class="blog-box">
+                                    <div class="blog-img">
+                                        <img src="images/blogs/blog-6.jpg" alt="">
+                                    </div>
+                                    <div class="blog-box-info">
+                                        <span class="category">General</span>
+                                        <h2 class="title">See my current workspace</h2>
+                                        <p class="little-text">The first thing to remember about success is that it is a process.</p>
+                                        <span class="date">8 Nov 17</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- a blog -->
+                            <div class="cbp-item">
+                                <a href="blog-posts/blog-video-version.html" class="blog-box">
+                                    <div class="blog-img">
+                                        <img src="images/blogs/blog-2.jpg" alt="">
+                                    </div>
+                                    <div class="blog-box-info">
+                                        <span class="category">Web Design</span>
+                                        <h2 class="title">How to become a web designer?</h2>
+                                        <p class="little-text">He must have tried it a hundred times, shut his eyes so that he wouldn't have to look at the floundering.</p>
+                                        <span class="date">27 Oct 17</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- a blog -->
+                            <div class="cbp-item">
+                                <a href="blog-posts/blog-music-version.html" class="blog-box">
+                                    <div class="blog-img">
+                                        <img src="images/blogs/blog-3.jpg" alt="">
+                                    </div>
+                                    <div class="blog-box-info">
+                                        <span class="category">User İnterface</span>
+                                        <h2 class="title">Why is it better to work nights?</h2>
+                                        <p class="little-text">Legs, and only stopped when he began to feel a mild, dull pain there that he had never felt.</p>
+                                        <span class="date">19 Oct 17</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- a blog -->
+                            <div class="cbp-item">
+                                <a href="blog-posts/blog-video-version.html" class="blog-box">
+                                    <div class="blog-img">
+                                        <img src="images/blogs/blog-4.jpg" alt="">
+                                    </div>
+                                    <div class="blog-box-info">
+                                        <span class="category">Photography</span>
+                                        <h2 class="title">Can you work everywhere?</h2>
+                                        <p class="little-text">Drops of rain could be heard hitting the pane, which made him feel quite sad..</p>
+                                        <span class="date">28 Sep 17</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- a blog -->
+                            <div class="cbp-item">
+                                <a href="blog-posts/blog-1.html" class="blog-box">
+                                    <div class="blog-img">
+                                        <img src="images/blogs/blog-5.jpg" alt="">
+                                    </div>
+                                    <div class="blog-box-info">
+                                        <span class="category">Other</span>
+                                        <h2 class="title">How to connect your imac or macBook</h2>
+                                        <p class="little-text">However hard he threw himself onto his right, he always rolled back to where he was.</p>
+                                        <span class="date">19 Agu 17</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- a blog -->
+                            <div class="cbp-item">
+                                <a href="blog-posts/blog-1.html" class="blog-box">
+                                    <div class="blog-img">
+                                        <img src="images/blogs/blog-6.jpg" alt="">
+                                    </div>
+                                    <div class="blog-box-info">
+                                        <span class="category">Work Space</span>
+                                        <h2 class="title">I'm starting a new project</h2>
+                                        <p class="little-text">The first thing to remember about success is that it is a process...</p>
+                                        <span class="date">1 Jul 17</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- load more button -->
+                        <div id="load-posts" class="cbp-l-loadMore-button top_60">
+                            <a href="load-more/blog-posts.html" class="cbp-l-loadMore-link site-btn" rel="nofollow">
+                                <span class="cbp-l-loadMore-defaultText">Load More (<span class="cbp-l-loadMore-loadItems">3</span>)</span>
+                                <span class="cbp-l-loadMore-loadingText">Loading...</span>
+                                <span class="cbp-l-loadMore-noMoreLoading">No More Works</span>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Contact Page
+            ================================================== -->
+            <div id="contact">
+                <div class="row">
+                    <!-- Contact Form -->
+                    <section class="contact-form col-md-6 padding_30 padbot_45">
+                        <div class="section-title top_15 bottom_30"><span></span><h2>Contact Form</h2></div>
+                        <form class="site-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input class="site-input" placeholder="Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="site-input" placeholder="E-mail">
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="site-area" placeholder="Message"></textarea>
+                                </div>
+                                <div class="col-md-12 top_15 bottom_30">
+                                    <button class="site-btn" type="submit">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                    <!-- Contact Informations -->
+                    <section class="contact-info col-md-6 padding_30 padbot_45">
+                        <div class="section-title top_15 bottom_30"><span></span><h2>Contact Informations</h2></div>
+                        <ul>
+                            <li><span>Address:</span> 765/55 Xo Viet Nghe Tinh, Binh Thanh, Ho Chi Minh</li>
+                            <li><span>Phone:</span> +84 12-48-22-78-79</li>
+                            <li><span>Job:</span> Developer</li>
+                            <li><span>E-mail:</span> dexternguyen.jobs@gmail.com</li>
+                            <li><span>Skype:</span> kalel0504</li>
+                            <li>
+                                <div class="social-icons top_15">
+                                    <a class="fb"
+                                        target="_blank"
+                                        href="https://www.facebook.com/dexternguyen0201">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    </a>
+                                    <!-- <a class="ins" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a> -->
+                                    <a class="dr"
+                                        target="_blank"
+                                        href="https://github.com/dexter0201">
+                                        <i class="fa fa-github" aria-hidden="true"></i>
+                                    </a>
+                                    <a class="dr"
+                                        target="_blank"
+                                        href="https://www.linkedin.com/in/dexternguyen0201/">
+                                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <!-- Contact Map -->
+                    <section class="contact-map col-md-12 top_15 bottom_15">
+                        <div class="section-title bottom_30"><span></span><h2>Contact Map.</h2></div>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4626.066397107385!2d106.71318882074091!3d10.815146988796188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752899704397e7%3A0xc24188097999e172!2zSOG6u20gNTYxIELDrG5oIFF14bubaSwgcGjGsOG7nW5nIDI2LCBCw6xuaCBUaOG6oW5oLCBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1518959666100" height="350" style="border:0" allowfullscreen></iframe>
+                    </section>
+                </div>
+            </div>
+
+        </div><!-- Content - End -->
+     </div> <!-- col-md-12 end -->
+</div><!-- row end -->
+<!-- Footer
+================================================== -->
+<footer>
+    <div class="footer col-md-12 top_30 bottom_30">
+        <div class="name col-md-4 hidden-md hidden-sm hidden-xs">Dexter Lich Nguyen.</div>
+        <div class="copyright col-lg-8 col-md-12">© 2017 All rights reserved.</div>
     </div>
+</footer>
 
-    <div data-wc-overlay data-wc-overlay-delay="300">
-        <br /><img src="public/content/images/spinner.gif" />&nbsp;&nbsp;Đang xử lý...
-    </div>
+</div> <!-- Tab Container - End -->
+</div> <!-- Row - End -->
+</div> <!-- Wrapper - End -->
 
-    <!-- 3rd party libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.min.js"></script>
-    <script src="public/scripts/angular-ui-bootstrap.js"></script>
-    <script src="public/scripts/ng-infinite-scroll.js"></script>
-    <script src="public/scripts/tweenMax.min.js"></script>
+<!-- Javascripts
+================================================== -->
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.easytabs.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+<!-- for color alternatives -->
+<script src="js/jquery.cookie-1.4.1.min.js"></script>
+<!-- <script src="js/Demo.js"></script> -->
+<!-- <link rel="stylesheet" href="css/Demo.min.css" /> -->
 
-    <script src="public/app/wc.directives/directives/wcOverlay.js"></script>
-    <script src="public/app/wc.directives/directives/menuHighlighter.js"></script>
-
-    <script src="public/scripts/breeze.min.js"></script>
-    <script src="public/scripts/breeze.angular.js"></script>
-
-    <!-- Load custom scripts via RequireJS -->
-    <script src="public/scripts/require.js" data-main="public/scripts/main"></script>
 
 </body>
 </html>
