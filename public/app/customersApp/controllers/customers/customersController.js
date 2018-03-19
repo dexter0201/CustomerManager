@@ -21,10 +21,10 @@ define(['app'], function (app) {
                 whole: 2
             };
 
-            //paging
             vm.totalRecords = 0;
             vm.pageSize = 10;
             vm.currentPage = 1;
+            vm.maxSize = 5;
 
             function filterCustomers(filterText) {
                 vm.filteredCustomers = $filter("nameCityStateFilter")(vm.customers, filterText);
@@ -36,10 +36,10 @@ define(['app'], function (app) {
                     .then(function (data) {
                         vm.totalRecords = data.totalRecords;
                         vm.customers = data.results;
-                        filterCustomers(''); //Trigger initial filter
+                        filterCustomers('');
 
                         $timeout(function () {
-                            vm.cardAnimationClass = ''; //Turn off animation since it won't keep up with filtering
+                            vm.cardAnimationClass = '';
                         }, 1000);
 
                     }, function (error) {
@@ -55,7 +55,7 @@ define(['app'], function (app) {
                         vm.customers = data.results;
                         filterCustomers('');
                         $timeout(function () {
-                            vm.cardAnimationClass = ''; //Turn off animation since it won't keep up with filtering
+                            vm.cardAnimationClass = '';
                         }, 1000);
                     }, function (error) {
                         $window.alert('Sorry, an error occurred: ' + error.data.message);
@@ -77,7 +77,6 @@ define(['app'], function (app) {
             vm.pageChanged = function (page) {
                 var currentType = vm.isDisplayWholeCustomer === true ? vm.CustomerTypeEnum.whole : vm.CustomerTypeEnum.retail;
                 vm.currentPage = page;
-                //getCustomersSummary();
                 getCustomerSummaryByType(currentType);
             };
 
@@ -88,12 +87,11 @@ define(['app'], function (app) {
                 }
 
                 var cust = getCustomerById(id),
-                    custName = cust.firstName + ' ' + cust.lastName,
                     modalOptions = {
-                        closeButtonText: 'Cancel',
-                        actionButtonText: 'Delete Customer',
-                        headerText: 'Delete ' + custName + '?',
-                        bodyText: 'Are you sure you want to delete this customer?'
+                        closeButtonText: 'Huỷ',
+                        actionButtonText: 'Xoá khách hàng',
+                        headerText: 'Xoá ' + cust.facebook.name + '?',
+                        bodyText: 'Bạn có chắc muốn xoá khách hàng này?'
                     },
                     i = 0;
 
@@ -108,7 +106,7 @@ define(['app'], function (app) {
                             }
                             filterCustomers(vm.searchText);
                         }, function (error) {
-                            $window.alert('Error deleting customer: ' + error.message);
+                            $window.alert('Có lỗi xảy ra khi xoá khách hàng: ' + error.message);
                         });
                     }
                 });

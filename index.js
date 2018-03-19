@@ -38,7 +38,9 @@ process.on('uncaughtException', function (err) {
 });
 
 //Local Connection
-var conn = 'mongodb://daisyadmin:123456@ds055885.mlab.com:55885/daisyshop';
+var connProd = 'mongodb://daisyadmin:123456@ds055885.mlab.com:55885/daisyshop';
+var connLocalhost = 'mongodb://localhost:27017/daisyshop';
+var conn = process.env.PORT ? connProd : connLocalhost;
 var db = new DB.startup(conn);
 
 // Routes

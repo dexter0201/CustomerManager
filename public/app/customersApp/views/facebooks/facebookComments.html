@@ -4,14 +4,6 @@
             <h3><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Facebook API</h3>
         </header>
         <br />
-        <div class="row">
-            <div class="col-lg-10 pull-right">
-                <div class="input-group">
-                    <span class="input-group-addon">Tìm kiếm</span>
-                    <input type="text" class="form-control" placeholder="Nhập từ khoá tìm kiếm" ng-model="searchTerm">
-                </div>
-            </div>
-        </div>
 
         <hr>
 
@@ -74,7 +66,15 @@
             </div>
             <div class="col-md-9 facebook-comments-container">
                 <div class="profile-content">
-                    <section class="comments" ng-hide="vm.comments.length === 0">
+                    <section class="search">
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tìm kiếm</span>
+                                <input type="text" class="form-control" placeholder="Nhập từ khoá tìm kiếm" ng-model="searchTerm">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="comments" ng-if="vm.comments.length > 0">
                         <article class="comment" ng-repeat="comment in vm.comments | filter:searchTerm">
                             <a class="comment-img cursor-pointer" ng-click="comment.isCollapsed = !comment.isCollapsed">
                                 <img class="img-circle" src="{{comment.user.avatar}}" alt="" width="50" height="50">

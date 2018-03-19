@@ -83,7 +83,11 @@
                                 <tr data-ng-repeat="customer in vm.filteredCustomers | orderBy:vm.orderby:vm.reverse" class="repeat-animation">
                                     <td>
                                         <a href="#/customeredit/{{customer.id}}">
-                                            <img data-ng-src="{{customer.facebook.avatar}}" class="cardImage" alt="Customer Image" />
+                                            <img ng-if="customer.facebook.avatar" data-ng-src="{{customer.facebook.avatar}}" class="cardImage" alt="Customer Image" />
+                                            <img ng-if="!customer.facebook.avatar"
+                                                data-ng-src="public/content/images/female.png"
+                                                class="cardImage"
+                                                alt="Customer Image" />
                                         </a>
                                     </td>
 
@@ -120,13 +124,14 @@
         <div class="row show-hide-animation" data-ng-show="vm.customers.length > 0">
             <div class="col-md-12">
                 <div data-pagination
-                     data-on-select-page="vm.pageChanged(page)"
-                     data-total-items="vm.totalRecords"
-                     data-page="vm.currentPage"
-                     data-items-per-page="vm.pageSize"
-                     data-boundary-links="true"
-                     class="pagination-sm"></div>
-                <h5>Showing {{ vm.filteredCount }} of {{ vm.totalRecords}} total customers</h5>
+                    data-on-select-page="vm.pageChanged(page)"
+                    data-total-items="vm.totalRecords"
+                    data-page="vm.currentPage"
+                    data-items-per-page="vm.pageSize"
+                    data-max-size="vm.maxSize"
+                    data-boundary-links="true"
+                    class="pagination-sm"></div>
+                <h5>Đang hiển thị {{ vm.filteredCount }} trong tổng số {{ vm.totalRecords}} khách hàng</h5>
             </div>
         </div>
         <br /><br /><br />

@@ -7,6 +7,11 @@
             <div class="customerEdit">
                 <div class="row">
                     <div class="col-md-12">
+                        <a href="{{vm.customer.facebook.link}}" target="_blank">Facebook Profile</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <h4>{{ vm.customer.firstName + ' ' + vm.customer.lastName }} <span data-ng-hide="vm.customer.id == 0">(<a style="font-size:12pt" href="#/customerorders/{{vm.customer.id}}">View Orders</a>)</span></h4>
                         <br />
                     </div>
@@ -52,7 +57,8 @@
                         Địa chỉ:
                     </div>
                     <div class="col-md-10">
-                        <input type="text" name="address" class="form-control" data-ng-model="vm.customer.address" />
+                        <textarea name="address" class="form-control" data-ng-model="vm.customer.address">
+                        </textarea>
                     </div>
                 </div>
                 <br />
@@ -173,7 +179,7 @@
                 <div class="statusRow">
                     <br />
                     <div class="label label-important" data-ng-show="vm.errorMessage">
-                        <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Error: {{ vm.errorMessage }}
+                        <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Lỗi: {{ vm.errorMessage }}
                     </div>
                 </div>
             </div>

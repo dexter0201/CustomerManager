@@ -47,6 +47,17 @@ define(['app'], function (app) {
                         c.created_time = new Date(c.created_time);
                         return c;
                     });
+
+                    // TODO: Remove this
+                    // for (var i = 0; i < 10; ++i) {
+                    //     var video = {
+                    //         created_time: vm.videos[0].created_time,
+                    //         id: (new Date()).getTime().toString(),
+                    //         description: vm.videos[0].description
+                    //     };
+
+                    //     vm.videos.push(video);
+                    // }
                 });
             }
 

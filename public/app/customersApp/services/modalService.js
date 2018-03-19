@@ -10,7 +10,7 @@ define(['app'], function (app) {
             backdrop: true,
             keyboard: true,
             modalFade: true,
-            templateUrl: '/app/customersApp/partials/modal.html'
+            templateUrl: 'public/app/customersApp/partials/modal.html'
         };
 
         var modalOptions = {
